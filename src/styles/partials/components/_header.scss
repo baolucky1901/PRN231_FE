@@ -78,7 +78,7 @@
         background-color: var(--bg-color-2);
         padding: 1.4rem;
         font-size: 0.9rem;
-        border-radius: 3px;
+        border-radius: 8px;
         @include bordered(1px, var(--text-muted));
         @include toggleVisibility(hidden, 0);
         @include transition(all, 0.2s, ease-in-out);

@@ -30,13 +30,17 @@
     .tabs_item {
         @include dimension(6rem, 6rem);
         @include bordered(2px, rgba($color: #a9afca, $alpha: 0.2));
-        border-radius: 3px;
+        border-radius: 8px;
         padding: 0.5rem;
         cursor: pointer;
         @include transition(border-color, 0.2s);
 
         &.active {
             border-color: #6c757d;
+        }
+
+        &:hover {
+            opacity: 0.5;
         }
 
         img {
@@ -115,7 +119,7 @@
 
     .badge {
         background-color: green;
-        border-radius: 3px;
+        border-radius: 8px;
         padding: 0.5rem 0.7rem;
     }
 
@@ -135,7 +139,7 @@
         li {
             @include bordered(1px, var(--text-muted));
             background-color: var(--bg-color-2);
-            border-radius: 3px;
+            border-radius: 8px;
             font-size: 0.9rem;
             padding: 0.6rem;
             color: #fff;
