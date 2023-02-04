@@ -131,19 +131,116 @@
         font-weight: 600;
     }
 
-    ul {
+    // ul {
+    //     display: flex;
+    //     gap: 0.8rem;
+    //     margin-top: 1.5rem;
+
+    //     // li {
+    //     //     @include bordered(1px, var(--text-muted));
+    //     //     background-color: var(--bg-color-2);
+    //     //     border-radius: 8px;
+    //     //     font-size: 0.9rem;
+    //     //     padding: 0.6rem;
+    //     //     color: #fff;
+    //     // }
+    //     input {
+    //         display: none;
+    //         margin-right: 10px;
+    //     }
+    // }
+
+    // input[type=checkbox], input[type=radio] {
+    //     box-sizing: border-box;
+    //     padding: 0;
+    // }
+
+    .prod_details_types {
         display: flex;
         gap: 0.8rem;
         margin-top: 1.5rem;
 
-        li {
-            @include bordered(1px, var(--text-muted));
-            background-color: var(--bg-color-2);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            padding: 0.6rem;
-            color: #fff;
+        
+
+        .prod_details_element {
+            margin: 0px 8px 0px 0px;
+
+            input[type="radio"] {
+                opacity: 0;
+                position: fixed;
+                width: 0;
+                display: inline-block;
+                // border: 1px solid #000;
+                // border-radius: 8px;
+                // width: 20px;
+                // height: 20px;
+                // position: relative;
+                
+              }
+              
+              input[type="radio"] + label {
+                padding: 7px 10px;
+                // margin-right: 10px;
+                font-size: 12px;
+                border: 1px solid #bdbfbe;
+                border-radius: 4px;
+                color: #004a44;
+                
+              }
+              
+              input[type="radio"]:checked + label {
+                color: #004a44;
+                background-color: transparent;
+                padding: 7px 10px;
+                border: 1px solid #004a44;
+                border-radius: 4px;
+                font-size: 12px;
+                
+              }
+              
+              label:before {
+                // content: "";
+                // display: block;
+                // // border-radius: 8px;
+                // position: absolute;
+                // top: 4px;
+                // left: 4px;
+                // width: 12px;
+                // height: 12px;
+                position: absolute;
+                content: "";
+                width: 0;
+                height: 0;
+                // right: -1px;
+                // top: -1px;
+                
+                border-style: solid;
+                border-width: 0px 19px 19px 0px;
+                border-color: transparent;
+                
+              }
+              
+            //   input[type="radio"]:checked:before {
+            //     background-color: #000;
+            //   }
+              
+              label:checked::after {
+                content: "";
+                display: block;
+                // position: absolute;
+                // top: 8px;
+                // left: 10px;
+                // font-size: 12px;
+                // font-weight: bold;
+                // color: #fff;
+                position: absolute;
+                content: "";
+                width: 19px;
+                height: 19px;
+                background-image: url("../../../../public/images/products/greentick.png");
+              }
         }
+
     }
 }
 

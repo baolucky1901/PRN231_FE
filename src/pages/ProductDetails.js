@@ -32,6 +32,31 @@ const ProductDetails = () => {
 
     const [previewImg, setPreviewImg] = useState(images[0]);
 
+    // Select button Book (loai sach)
+
+    const [selectedValue, setSelectedValue] = useState("");
+
+    const [ticked, setTicked] = useState("");
+
+    const [options, setOptions] = useState([]);
+
+    // handling Select-button-Book (loai sach)
+    const handleOption = event => {
+        setSelectedValue(event.target.value);
+    };
+
+    const handleTicked = event => {
+        setTicked(event.target.checked);
+    };
+
+    // api select button book
+    useEffect(() => {
+        // fetch("https://api.example.com/options")
+        //   .then(response => response.json())
+        //   .then(data => {
+        //     setOptions(data);
+        //   });
+    }, []);
 
     // handling Add-to-cart
     const handleAddItem = () => {
@@ -45,6 +70,7 @@ const ProductDetails = () => {
         handleActive(0);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [images]);
+
 
 
     // handling Preview image
@@ -123,11 +149,37 @@ const ProductDetails = () => {
                             <div className="separator"></div>
 
                             <div className="prod_details_offers">
-                                <h4>Offers and Discounts</h4>
-                                <ul>
+                                <h4>Type:</h4>
+                                {/* <ul>
                                     <li>No Cost EMI on Credit Card</li>
                                     <li>Pay Later & Avail Cashback</li>
-                                </ul>
+                                </ul> */}
+                                <div className="prod_details_types">
+                                    <div className="prod_details_element e-book">
+                                        <input
+                                            type="radio"
+                                            id="swatch-0-ebook"
+                                            value="option1"
+                                            checked={selectedValue === "option1"}
+                                            onChange={handleOption}
+                                        />
+                                        <label for="swatch-0-ebook" className="sd">
+                                            <span>E-Book</span>
+                                        </label>
+                                    </div>
+                                    <div className="prod_details_element physical-book">
+                                        <input
+                                            type="radio"
+                                            id="swatch-0-physical-book"
+                                            value="option2"
+                                            checked={selectedValue === "option2"}
+                                            onChange={handleOption}
+                                        />
+                                        <label for="swatch-0-physical-book" className="sd">
+                                            <span>Physical Book</span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="separator"></div>
