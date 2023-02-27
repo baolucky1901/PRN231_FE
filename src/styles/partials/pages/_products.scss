@@ -61,6 +61,14 @@
 
 .products_details {
     padding: 1rem;
+
+    .products_details_title {
+        min-height: 50px
+    }
+
+    .products_details_info {
+        min-height: 100px
+    }
 }
 
 .products_title {

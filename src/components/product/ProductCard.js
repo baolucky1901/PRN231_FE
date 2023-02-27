@@ -44,22 +44,26 @@ const ProductCard = (props) => {
                             [...Array(rateCount)].map((_, i) => <IoMdStar key={i} />)
                         }
                     </span>
-                    <h3 className="products_title">
-                        <Link to={`${path}${id}`}>{title}</Link>
-                    </h3>
-                    <h5 className="products_info">{info}</h5>
+                    <div className="products_details_title">
+                        <h3 className="products_title">
+                            <Link to={`${path}${id}`}>{title}</Link>
+                        </h3>
+                    </div>
+                    <div className="products_details_info">
+                        <h5 className="products_info">{info}</h5>
+                    </div>
                     <div className="separator"></div>
                     <h2 className="products_price">
                         {newPrice} &nbsp;
                         <small><del>{oldPrice}</del></small>
                     </h2>
-                    <button
+                    {/* <button
                         type="button"
                         className={`btn products_btn ${activeClass(id)}`}
                         onClick={handleAddItem}
                     >
                         {active ? 'Added' : 'Add to cart'}
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </>

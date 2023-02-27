@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { displayMoney } from '../../helpers/utils';
 import cartContext from '../../contexts/cart/cartContext';
 import QuantityBox from '../common/QuantityBox';
+import { IoIosBook, IoMdBook} from 'react-icons/io';
+
 
 
 const CartItem = (props) => {
@@ -36,12 +38,15 @@ const CartItem = (props) => {
                             <div className="tooltip">Remove Item</div>
                         </div>
                     </div>
-
-                    <h2 className="cart_item_price">
-                        {newPrice} &nbsp;
-                        <small><del>{oldPrice}</del></small>
-                    </h2>
-
+                    <div className="cart_item_body">
+                        <h2 className="cart_item_price">
+                            {newPrice} &nbsp;
+                            <small><del>{oldPrice}</del></small>
+                        </h2>
+                        <div className="badge">
+                            <span><IoMdBook /> Physical-Book</span>
+                        </div>
+                    </div>
                     <QuantityBox itemId={id} itemQuantity={quantity} />
                 </div>
             </div>
