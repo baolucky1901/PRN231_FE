@@ -42,22 +42,32 @@ export const brandsMenu = [
 export const categoryMenu = [
     {
         id: 1,
-        label: "Headphones",
+        label: "Basic Programing Language",
         checked: false,
     },
     {
         id: 2,
-        label: "Earbuds",
+        label: "Computer science and algorithms",
         checked: false,
     },
     {
         id: 3,
-        label: "Earphones",
+        label: "Networking and cybersecurity",
         checked: false,
     },
     {
         id: 4,
-        label: "Neckbands",
+        label: "Databases and data management",
+        checked: false,
+    },
+    {
+        id: 5,
+        label: "Artificial intelligence and machine learning",
+        checked: false,
+    },
+    {
+        id: 6,
+        label: "Operating systems and system administration",
         checked: false,
     },
 ];

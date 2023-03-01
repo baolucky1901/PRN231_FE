@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, A11y, Autoplay } from 'swiper';
 import { displayMoney } from '../../helpers/utils';
 import productsData from '../../data/productsData';
+import { useState, useEffect } from 'react';
 
 import 'swiper/scss';
 import 'swiper/scss/autoplay';
@@ -12,9 +13,17 @@ import "swiper/scss/effect-coverflow";
 
 
 const FeaturedSlider = () => {
+    const [data, setData] = useState([]);
 
-    const featuredProducts = productsData.filter(item => item.tag === 'featured-product');
-
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('https://localhost:44301/api/books/cus/books?page=1&pageSize=20');
+      const jsonData = await response.json();
+      setData(jsonData.data);
+    };
+    fetchData();
+  }, []);
+    // const featuredProducts = productsData.filter(item => item.tag === 'featured-product');
 
     return (
         <Swiper
@@ -50,22 +59,18 @@ const FeaturedSlider = () => {
             className="featured_swiper"
         >
             {
-                featuredProducts.map((item) => {
-                    const { id, images, title, finalPrice, originalPrice, path } = item;
-                    const newPrice = displayMoney(finalPrice);
-                    const oldPrice = displayMoney(originalPrice);
-
+                data.map((item) => {
+                    const formattedPrice = item.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'});
                     return (
-                        <SwiperSlide key={id} className="featured_slides">
-                            <div className="featured_title">{title}</div>
+                        <SwiperSlide key={item.id} className="featured_slides">
+                            <div className="featured_title">{item.name}</div>
                             <figure className="featured_img">
-                                <Link to={`${path}${id}`}>
-                                    <img src={images[0]} alt="" />
+                                <Link to={`/product-details/${item.id}`}>
+                                    <img src={item.imgPath} alt="" />
                                 </Link>
                             </figure>
                             <h2 className="products_price">
-                                {newPrice} &nbsp;
-                                <small><del>{oldPrice}</del></small>
+                                {formattedPrice}
                             </h2>
                         </SwiperSlide>
                     );
