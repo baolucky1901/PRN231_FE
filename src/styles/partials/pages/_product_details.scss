@@ -1,251 +1,188 @@
 #product_details {
-    padding-top: 6rem;
+  padding-top: 6rem;
 }
 
 .prod_details_wrapper {
-    grid-template-columns: 1fr 0.7fr;
-    gap: 4rem;
+  grid-template-columns: 1fr 0.7fr;
+  gap: 4rem;
 
-    @include devices(lg) {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-    }
+  @include devices(lg) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
 }
 
 .prod_details_left_col {
-    display: grid;
-    grid-template-columns: 0.2fr 1fr;
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: 0.2fr 1fr;
+  gap: 1rem;
 
-    @include devices(sm) {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
+  @include devices(sm) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
 .prod_details_tabs {
-    display: grid;
-    gap: 1rem;
+  display: grid;
+  gap: 1rem;
 
-    .tabs_item {
-        @include dimension(6rem, 6rem);
-        @include bordered(2px, rgba($color: #a9afca, $alpha: 0.2));
-        border-radius: 8px;
-        padding: 0.5rem;
-        cursor: pointer;
-        @include transition(border-color, 0.2s);
+  .tabs_item {
+    @include dimension(6rem, 6rem);
+    @include bordered(2px, rgba($color: #a9afca, $alpha: 0.2));
+    border-radius: 8px;
+    padding: 0.5rem;
+    cursor: pointer;
+    @include transition(border-color, 0.2s);
 
-        &.active {
-            border-color: #6c757d;
-        }
+    &.active {
+      border-color: #6c757d;
+    }
 
-        &:hover {
-            opacity: 0.5;
-        }
+    &:hover {
+      opacity: 0.5;
+    }
 
-        img {
-            @include img-fit;
-        }
-
-        @include devices(sm) {
-            @include dimension();
-            padding: 0.3rem;
-        }
+    img {
+      @include img-fit;
     }
 
     @include devices(sm) {
-        display: flex;
-        gap: 0.4rem;
+      @include dimension();
+      padding: 0.3rem;
     }
+  }
+
+  @include devices(sm) {
+    display: flex;
+    gap: 0.4rem;
+  }
 }
 
 .prod_details_img {
+  img {
+    @include img-fit;
+  }
 
-    img {
-        @include img-fit;
-    }
-
-    @include devices(sm) {
-        grid-row: 1;
-    }
+  @include devices(sm) {
+    grid-row: 1;
+  }
 }
 
 .prod_details_right_col {
-    .separator {
-        @include margin-y(2.2rem, 2.2rem);
-    }
+  .separator {
+    @include margin-y(2.2rem, 2.2rem);
+  }
 }
 
 .prod_details_info {
-    @include margin-y(0.6rem, 1.2rem);
-    font-weight: 600;
+  @include margin-y(0.6rem, 1.2rem);
+  font-weight: 600;
+}
+
+.prod_details_desc {
+  @include margin-y(0.6rem, 1.2rem);
+  font-weight: 500;
 }
 
 .prod_details_ratings {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 
-    a {
-        opacity: 0.8;
+  a {
+    opacity: 0.8;
 
-        &:hover {
-            opacity: 1;
-        }
+    &:hover {
+      opacity: 1;
     }
+  }
 }
 
 .prod_details_price {
-    @include flexbox(space-between, center);
+  @include flexbox(space-between, center);
 
-    .price {
-        font-size: 2rem;
-    }
+  .price {
+    font-size: 2rem;
+  }
 
-    .del_price {
-        font-size: 1.3rem;
-    }
+  .del_price {
+    font-size: 1.3rem;
+  }
 
-    .saved_price {
-        font-weight: 500;
-        color: green;
-        @include margin-y(0.8rem, 0.4rem);
-    }
+  .saved_price {
+    font-weight: 500;
+    color: green;
+    @include margin-y(0.8rem, 0.4rem);
+  }
 
-    .tax_txt {
-        font-size: 0.9rem;
-        color: var(--text-muted);
-    }
+  .tax_txt {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
 
-    .badge {
-        background-color: green;
-        border-radius: 8px;
-        padding: 0.5rem 0.7rem;
-    }
-
+  .badge {
+    background-color: green;
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+  }
 }
 
 .prod_details_offers {
+  h4 {
+    font-weight: 600;
+  }
 
-    h4 {
-        font-weight: 600;
+  .prod_details_types {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+
+    .prod_details_element {
+      margin: 0px 8px 0px 0px;
+
+      input[type="radio"] {
+        opacity: 0;
+        position: fixed;
+        width: 0;
+        display: inline-block;
+      }
+
+      input[type="radio"] + label {
+        padding: 7px 10px;
+        // margin-right: 10px;
+        font-size: 12px;
+        border: 1px solid #bdbfbe;
+        border-radius: 10px;
+        color: #004a44;
+      }
+
+      input[type="radio"]:checked + label {
+        color: #004a44;
+        background-color: #66bb6a;
+        color: #fff;
+        padding: 7px 10px;
+        border: none;
+        border-radius: 10px;
+        font-size: 13px;
+      }
+
+      label:before {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+
+        border-style: solid;
+        border-width: 0px 19px 19px 0px;
+        border-color: transparent;
+      }
     }
-
-    // ul {
-    //     display: flex;
-    //     gap: 0.8rem;
-    //     margin-top: 1.5rem;
-
-    //     // li {
-    //     //     @include bordered(1px, var(--text-muted));
-    //     //     background-color: var(--bg-color-2);
-    //     //     border-radius: 8px;
-    //     //     font-size: 0.9rem;
-    //     //     padding: 0.6rem;
-    //     //     color: #fff;
-    //     // }
-    //     input {
-    //         display: none;
-    //         margin-right: 10px;
-    //     }
-    // }
-
-    // input[type=checkbox], input[type=radio] {
-    //     box-sizing: border-box;
-    //     padding: 0;
-    // }
-
-    .prod_details_types {
-        display: flex;
-        gap: 0.8rem;
-        margin-top: 1.5rem;
-
-        
-
-        .prod_details_element {
-            margin: 0px 8px 0px 0px;
-
-            input[type="radio"] {
-                opacity: 0;
-                position: fixed;
-                width: 0;
-                display: inline-block;
-                // border: 1px solid #000;
-                // border-radius: 8px;
-                // width: 20px;
-                // height: 20px;
-                // position: relative;
-                
-              }
-              
-              input[type="radio"] + label {
-                padding: 7px 10px;
-                // margin-right: 10px;
-                font-size: 12px;
-                border: 1px solid #bdbfbe;
-                border-radius: 4px;
-                color: #004a44;
-                
-              }
-              
-              input[type="radio"]:checked + label {
-                color: #004a44;
-                background-color: transparent;
-                padding: 7px 10px;
-                border: 1px solid #004a44;
-                border-radius: 4px;
-                font-size: 12px;
-                
-              }
-              
-              label:before {
-                // content: "";
-                // display: block;
-                // // border-radius: 8px;
-                // position: absolute;
-                // top: 4px;
-                // left: 4px;
-                // width: 12px;
-                // height: 12px;
-                position: absolute;
-                content: "";
-                width: 0;
-                height: 0;
-                // right: -1px;
-                // top: -1px;
-                
-                border-style: solid;
-                border-width: 0px 19px 19px 0px;
-                border-color: transparent;
-                
-              }
-              
-            //   input[type="radio"]:checked:before {
-            //     background-color: #000;
-            //   }
-              
-              label:checked::after {
-                content: "";
-                display: block;
-                // position: absolute;
-                // top: 8px;
-                // left: 10px;
-                // font-size: 12px;
-                // font-weight: bold;
-                // color: #fff;
-                position: absolute;
-                content: "";
-                width: 19px;
-                height: 19px;
-                background-image: url("../../../../public/images/products/greentick.png");
-              }
-        }
-
-    }
+  }
 }
 
 .prod_details_buy_btn {
-    .btn {
-        width: 200px;
-    }
+  .btn {
+    width: 200px;
+  }
 }
