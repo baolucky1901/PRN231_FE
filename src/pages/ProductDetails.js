@@ -10,7 +10,6 @@ import SectionsHead from "../components/common/SectionsHead";
 import RelatedSlider from "../components/sliders/RelatedSlider";
 import ProductSummary from "../components/product/ProductSummary";
 import Services from "../components/common/Services";
-import { axiosClient } from "../helpers/axios";
 
 const ProductDetails = () => {
   useDocTitle("Product Details");
@@ -28,7 +27,6 @@ const ProductDetails = () => {
   const product = productsData.find((item) => item.id === prodId);
 
   const {
-    images,
     title,
     info,
     category,
@@ -39,7 +37,8 @@ const ProductDetails = () => {
   } = product;
 
   const [data, setData] = useState({});
-  const [image, setImage] = useState({});
+  const [image, setImage] = useState([]);
+  const [ebookData, setEbookData] = useState({});
 
   const {
     id,
@@ -53,9 +52,10 @@ const ProductDetails = () => {
     amount,
     categoryName,
     publisherName,
+    hasEbook,
   } = data;
 
-  const [previewImg, setPreviewImg] = useState(images[0]);
+  const [previewImg, setPreviewImg] = useState(image[0]);
 
   // Select button Book (loai sach)
 
@@ -68,34 +68,59 @@ const ProductDetails = () => {
 
   // api select button book
   useEffect(() => {
-    axiosClient.get(`/books/book/${prodId}`).then((response) => {
-      setData(response.data.data);
-    });
+    const fetchData = async () => {
+      const res = await fetch(
+        `https://localhost:44301/api/books/book/${prodId}`
+      );
+      const data = await res.json();
+      setData(data.data);
 
-    axiosClient.get(`/book-images/book-image/book/${prodId}`).then((res) => {
-      setImage(res.data.data);
-    });
+      const resImage = await fetch(
+        `https://localhost:44301/api/book-images/book-image/book/${prodId}`
+      );
+      const dataResImage = await resImage.json();
+      setImage(dataResImage.data);
+      setPreviewImg(dataResImage.data[0].imgPath);
+
+      const resDataEbook = await fetch(
+        `https://localhost:44301/api/ebooks/ebook/book/${prodId}`
+      );
+      const dataResDataEbook = await resDataEbook.json();
+      setEbookData(dataResDataEbook.data);
+    };
+
+    fetchData();
   }, []);
-  console.log("data: ", data);
-  console.log("Image: ", image);
 
   // handling Add-to-cart
   const handleAddItem = () => {
-    addItem(product);
+    addItem({
+      ...data,
+      cateItem: selectedValue,
+      previewImg: previewImg,
+      quantity: 1,
+      price: selectedValue === "E-Book" ? ebookData.price : data.price,
+      id: selectedValue === "E-Book" ? ebookData.id : data.id,
+    });
   };
 
   // setting the very-first image on re-render
   useEffect(() => {
-    setPreviewImg(images[0]);
-    handleActive(0);
+    if (image.length !== 0) {
+      setPreviewImg(image[0].imgPath);
+      handleActive(0);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [images]);
+  }, []);
 
   // handling Preview image
   const handlePreviewImg = (i) => {
-    setPreviewImg(images[i]);
+    setPreviewImg(image[i].imgPath);
     handleActive(i);
   };
+
+  // console.log("previewImage", previewImg.imgPath);
 
   // calculating Prices
   const discountedPrice = originalPrice - finalPrice;
@@ -112,13 +137,13 @@ const ProductDetails = () => {
             {/*=== Product Details Left-content ===*/}
             <div className="prod_details_left_col">
               <div className="prod_details_tabs">
-                {images.map((img, i) => (
+                {image?.map((img, i) => (
                   <div
                     key={i}
                     className={`tabs_item ${activeClass(i)}`}
                     onClick={() => handlePreviewImg(i)}
                   >
-                    <img src={img} alt="product-img" />
+                    <img src={img.imgPath} alt="product-img" />
                   </div>
                 ))}
               </div>
@@ -148,7 +173,7 @@ const ProductDetails = () => {
               <div className="prod_details_price">
                 <div className="price_box">
                   <h2 className="price">
-                    {newPrice} &nbsp;
+                    {price} &nbsp;
                     <small className="del_price">
                       <del>{oldPrice}</del>
                     </small>
@@ -170,40 +195,68 @@ const ProductDetails = () => {
 
               <div className="prod_details_offers">
                 <h4>Type:</h4>
-                {/* <ul>
-                                    <li>No Cost EMI on Credit Card</li>
-                                    <li>Pay Later & Avail Cashback</li>
-                                </ul> */}
                 <div className="prod_details_types">
-                  <div className="prod_details_element physical-book">
-                    <input
-                      type="radio"
-                      id="swatch-0-physical-book"
-                      value="option2"
-                      checked={selectedValue === "option2"}
-                      onChange={handleOption}
-                    />
-                    <label for="swatch-0-physical-book" className="sd">
-                      <span>Physical Book</span>
-                    </label>
-                  </div>
-                  <div className="prod_details_element e-book">
-                    <input
-                      type="radio"
-                      id="swatch-0-ebook"
-                      value="option1"
-                      checked={selectedValue === "option1"}
-                      onChange={handleOption}
-                    />
-                    <label for="swatch-0-ebook" className="sd">
-                      <span>E-Book</span>
-                    </label>
-                  </div>
+                  {hasEbook === true && amount > 0 ? (
+                    <>
+                      <div className="prod_details_element physical-book">
+                        <input
+                          type="radio"
+                          id="swatch-0-physical-book"
+                          value="Physical Book"
+                          checked={selectedValue === "Physical Book"}
+                          onChange={handleOption}
+                        />
+                        <label htmlFor="swatch-0-physical-book" className="sd">
+                          <span>Physical Book</span>
+                        </label>
+                      </div>
+                      <div className="prod_details_element e-book">
+                        <input
+                          type="radio"
+                          id="swatch-0-ebook"
+                          value="E-Book"
+                          checked={selectedValue === "E-Book"}
+                          onChange={handleOption}
+                        />
+                        <label htmlFor="swatch-0-ebook" className="sd">
+                          <span>E-Book</span>
+                        </label>
+                      </div>
+                    </>
+                  ) : hasEbook === false && amount > 0 ? (
+                    <div className="prod_details_element physical-book">
+                      <input
+                        type="radio"
+                        id="swatch-0-physical-book"
+                        value="Physical Book"
+                        checked={selectedValue === "Physical Book"}
+                        onChange={handleOption}
+                      />
+                      <label htmlFor="swatch-0-physical-book" className="sd">
+                        <span>Physical Book</span>
+                      </label>
+                    </div>
+                  ) : amount === null ? (
+                    <>
+                      <div className="prod_details_element e-book">
+                        <input
+                          type="radio"
+                          id="swatch-0-ebook"
+                          value="E-Book"
+                          checked={selectedValue === "E-Book"}
+                          onChange={handleOption}
+                        />
+                        <label htmlFor="swatch-0-ebook" className="sd">
+                          <span>E-Book</span>
+                        </label>
+                      </div>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
-
               <div className="separator"></div>
-
               <div className="prod_details_buy_btn">
                 <button type="button" className="btn" onClick={handleAddItem}>
                   Add to cart

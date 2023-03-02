@@ -14,7 +14,7 @@ import { UseAuth } from "../../contexts/auth/AuthContext";
 
 const Header = () => {
   const { user, logOut } = UseAuth();
-  console.log("User Header: ", user);
+  // console.log("User Header: ", user);
   const [show, setShow] = useState(false);
 
   const { toggleForm, toggleSearch } = useContext(commonContext);

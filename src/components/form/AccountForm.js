@@ -39,7 +39,7 @@ const AccountForm = () => {
     if (user !== null) {
       navigate("/");
       toggleForm(false);
-      console.log("User: ", user);
+      // console.log("User: ", user);
     }
   }, [user]);
 
