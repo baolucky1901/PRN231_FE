@@ -45,7 +45,7 @@ const FiltersProvider = ({ children }) => {
     }
     fetchDataProduct();
 
-    console.log("Products: ", products);
+    // console.log("Products: ", products);
 
     // finding the Max and Min Price, & setting them into the state.
     // const priceArr = products?.map((item) => item.price);
@@ -150,7 +150,7 @@ const FiltersProvider = ({ children }) => {
   useEffect(() => {
     if (products.length === 0) return;
     applyFilters();
-    console.log("product filter: ", products);
+    // console.log("product filter: ", products);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     state.sortedValue,

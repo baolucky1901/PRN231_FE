@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { IoMdStar } from "react-icons/io";
+// import { IoMdStar } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { displayMoney } from "../../helpers/utils";
+// import { displayMoney } from "../../helpers/utils";
 import cartContext from "../../contexts/cart/cartContext";
 import useActive from "../../hooks/useActive";
 

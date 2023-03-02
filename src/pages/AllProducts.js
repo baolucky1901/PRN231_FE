@@ -11,7 +11,7 @@ const AllProducts = () => {
   useDocTitle("All Products");
 
   const { allProducts } = useContext(filtersContext);
-  console.log("allProducts: ", allProducts);
+  // console.log("allProducts: ", allProducts);
   const [data, setData] = useState([]);
 
   useEffect(() => {
