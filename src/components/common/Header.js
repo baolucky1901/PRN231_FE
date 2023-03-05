@@ -15,7 +15,6 @@ import { UseAuth } from "../../contexts/auth/AuthContext";
 const Header = () => {
   const { user, logOut } = UseAuth();
   // console.log("User Header: ", user);
-  const [show, setShow] = useState(false);
 
   const { toggleForm, toggleSearch } = useContext(commonContext);
   const { cartItems } = useContext(cartContext);
@@ -24,6 +23,7 @@ const Header = () => {
   const handleLogOut = async () => {
     try {
       await logOut();
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -42,12 +42,6 @@ const Header = () => {
   }, [isSticky]);
 
   const cartQuantity = cartItems.length;
-
-  useEffect(() => {
-    if (user !== null) {
-      setShow(true);
-    }
-  }, []);
 
   return (
     <>

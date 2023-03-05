@@ -16,6 +16,7 @@ const CartItem = (props) => {
     path,
     cateItem,
     price,
+    name,
   } = props;
 
   const { removeItem } = useContext(cartContext);
@@ -34,7 +35,7 @@ const CartItem = (props) => {
         <div className="cart_item_info">
           <div className="cart_item_head">
             <h4 className="cart_item_title">
-              <Link to={`/product-details/${id}`}></Link>
+              <Link to={`/product-details/${id}`}>{name}</Link>
             </h4>
             <div className="cart_item_del">
               <span onClick={() => removeItem(id)}>
