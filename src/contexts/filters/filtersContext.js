@@ -44,18 +44,6 @@ const FiltersProvider = ({ children }) => {
       return;
     }
     fetchDataProduct();
-
-    // console.log("Products: ", products);
-
-    // finding the Max and Min Price, & setting them into the state.
-    // const priceArr = products?.map((item) => item.price);
-    // const minPrice = Math.min(...priceArr);
-    // const maxPrice = Math.max(...priceArr);
-
-    // dispatch({
-    //   type: "LOAD_ALL_PRODUCTS",
-    //   payload: { products, minPrice, maxPrice },
-    // });
   }, [products]);
 
   useEffect(() => {

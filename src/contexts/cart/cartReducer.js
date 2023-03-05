@@ -34,41 +34,52 @@ const cartReducer = (state, action) => {
       const removeItem = state.cartItems.filter(
         (item) => item.id !== action.payload.itemId
       );
-      console.log("REmove Item: ", removeItem);
       localStorage.setItem("cart", JSON.stringify(removeItem));
       return {
         ...state,
         cartItems: removeItem,
       };
 
-    case "INCREMENT_ITEM":
+    case "CLEAR_CART":
+      localStorage.setItem("cart", JSON.stringify([]));
       return {
         ...state,
-        cartItems: state.cartItems.map((item) => {
-          if (item.id === action.payload.itemId) {
-            return {
-              ...item,
-              quantity: item.quantity + 1,
-            };
-          }
-          return item;
-        }),
+        cartItems: [],
+      };
+
+    case "INCREMENT_ITEM":
+      const increment = state.cartItems.map((item) => {
+        if (item.id === action.payload.itemId) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+          };
+        }
+        return item;
+      });
+      localStorage.setItem("cart", JSON.stringify(increment));
+      return {
+        ...state,
+        cartItems: increment,
       };
 
     case "DECREMENT_ITEM":
+      const decrement = state.cartItems
+        .map((item) => {
+          if (item.id === action.payload.itemId) {
+            return {
+              ...item,
+              quantity: item.quantity - 1,
+            };
+          }
+          return item;
+        })
+        .filter((item) => item.quantity !== 0);
+      localStorage.setItem("cart", JSON.stringify(decrement));
+
       return {
         ...state,
-        cartItems: state.cartItems
-          .map((item) => {
-            if (item.id === action.payload.itemId) {
-              return {
-                ...item,
-                quantity: item.quantity - 1,
-              };
-            }
-            return item;
-          })
-          .filter((item) => item.quantity !== 0),
+        cartItems: decrement,
       };
 
     default:

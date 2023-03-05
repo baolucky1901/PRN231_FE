@@ -30,6 +30,12 @@ const CartProvider = ({ children }) => {
     });
   };
 
+  const clearItem = (item) => {
+    return dispatch({
+      type: "CLEAR_CART",
+    });
+  };
+
   const incrementItem = (itemId) => {
     return dispatch({
       type: "INCREMENT_ITEM",
@@ -51,6 +57,7 @@ const CartProvider = ({ children }) => {
     removeItem,
     incrementItem,
     decrementItem,
+    clearItem,
   };
 
   return <cartContext.Provider value={values}>{children}</cartContext.Provider>;
