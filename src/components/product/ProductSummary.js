@@ -6,9 +6,23 @@ import ProductReviews from './ProductReviews';
 
 const ProductSummary = (props) => {
 
-    const { brand, title, info, category, type, connectivity } = props;
+    const { 
+        id,
+        name,
+        isbn,
+        author,
+        releaseYear,
+        version,
+        price,
+        description,
+        amount,
+        categoryName,
+        publisherName,
+        hasEbook, 
+        } = props;
 
     const { active, handleActive, activeClass } = useActive('specs');
+
 
 
     return (
@@ -47,40 +61,50 @@ const ProductSummary = (props) => {
                                 <div className="prod_specs">
                                     <ul>
                                         <li>
-                                            <span>Brand</span>
-                                            <span>{brand}</span>
+                                            <span>Name</span>
+                                            <span>{name}</span>
                                         </li>
                                         <li>
-                                            <span>Model</span>
-                                            <span>{title}</span>
+                                            <span>ISBN</span>
+                                            <span>{isbn}</span>
                                         </li>
                                         <li>
-                                            <span>Generic Name</span>
-                                            <span>{category}</span>
+                                            <span>Author</span>
+                                            <span>{author}</span>
                                         </li>
                                         <li>
-                                            <span>Headphone Type</span>
-                                            <span>{type}</span>
+                                            <span>Release Year</span>
+                                            <span>{releaseYear}</span>
                                         </li>
                                         <li>
-                                            <span>Connectivity</span>
-                                            <span>{connectivity}</span>
+                                            <span>Version</span>
+                                            <span>{version}</span>
                                         </li>
                                         <li>
-                                            <span>Microphone</span>
-                                            <span>Yes</span>
+                                            <span>Category Name</span>
+                                            <span>{categoryName}</span>
+                                        </li>
+                                        <li>
+                                            <span>Publisher Name</span>
+                                            <span>{publisherName}</span>
+                                        </li>
+                                        <li>
+                                            <span>Has E-Book</span>
+                                            <span>{hasEbook === 'true' ? 'Yes' : 'No'}</span>
                                         </li>
                                     </ul>
                                 </div>
                             ) : active === 'overview' ? (
                                 <div className="prod_overview">
-                                    <h3>The <span>{title}</span> {info} provides with fabulous sound quality</h3>
+                                    {/* <h3>The <span></span>  provides with fabulous sound quality</h3>
                                     <ul>
                                         <li>Sound Tuned to Perfection</li>
                                         <li>Comfortable to Wear</li>
                                         <li>Long Hours Playback Time</li>
                                     </ul>
-                                    <p>Buy the <b>{title} {info}</b> which offers you with fabulous music experience by providing you with awesome sound quality that you can never move on from. Enjoy perfect flexibility and mobility with amazing musical quality with these {category} giving you a truly awesome audio experience. It blends with exceptional sound quality and a range of smart features for an unrivalled listening experience.</p>
+                                    <p>Buy the <b></b> which offers you with fabulous music experience by providing you with awesome sound quality that you can never move on from. Enjoy perfect flexibility and mobility with amazing musical quality with these giving you a truly awesome audio experience. It blends with exceptional sound quality and a range of smart features for an unrivalled listening experience.</p> */}
+                                    <h3>{name}</h3>
+                                    <p>{description}</p>
                                 </div>
                             ) : (
                                 <div className="prod_reviews">

@@ -30,7 +30,7 @@ const HeroSlider = () => {
         >
             {
                 heroProducts.map((item, i) => {
-                    const { id, title, tagline, heroImage, finalPrice, originalPrice, path } = item;
+                    const { id, title, tagline, heroImage, finalPrice, originalPrice, path, info } = item;
                     const newPrice = displayMoney(finalPrice);
                     const oldPrice = displayMoney(originalPrice);
 
@@ -42,10 +42,11 @@ const HeroSlider = () => {
                             <div className="hero_item_txt">
                                 <h3>{title}</h3>
                                 <h1>{tagline}</h1>
-                                <h2 className="hero_price">
+                                {/* <h2 className="hero_price">
                                     {newPrice} &nbsp;
                                     <small><del>{oldPrice}</del></small>
-                                </h2>
+                                </h2> */}
+                                {/* <h2>{info}</h2> */}
                                 <Link to={`${path}${id}`} className="btn">Shop Now</Link>
                             </div>
                             <figure className="hero_item_img">

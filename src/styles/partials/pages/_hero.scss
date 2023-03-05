@@ -23,7 +23,7 @@
         @include pseudo($top: 10%);
         font-size: 15rem;
         font-weight: 700;
-        opacity: 0.05;
+        opacity: 0.1;
 
         @include devices(xl) {
             font-size: 12rem;
@@ -35,17 +35,17 @@
     }
 
     &.hero_slide-0::before {
-        content: "Over Ear";
+        content: "Developer Javascript";
         color: #454a4d;
     }
 
     &.hero_slide-1::before {
-        content: "In Ear";
+        content: "All Developer";
         color: #454a4d;
     }
 
     &.hero_slide-2::before {
-        content: "Over Ear";
+        content: "Beginer";
         color: #454a4d;
     }
 

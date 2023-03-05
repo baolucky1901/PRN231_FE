@@ -48,9 +48,13 @@
     text-align: center;
     padding: 1rem;
     overflow: hidden;
+    max-width: 343.79px;
+    max-height: 350.24px;
 
     img {
         width: 70%;
+        min-height: 318.25px;
+        max-height: 318.25px;
         @include transition(transform, 0.25s, ease);
 
         &:hover {

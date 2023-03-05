@@ -5,6 +5,7 @@
 .featured_slides {
     text-align: center;
     overflow: hidden;
+    // max-height: 305.333px;
 
     @include devices(md) {
         width: 16rem;
@@ -18,8 +19,13 @@
 .featured_img {
     @include margin-y(2rem, 2rem);
     overflow: hidden;
+    max-height: 305.333px;
 
     img {
-        @include img-fit;
+        // @include img-fit;
+        min-width: 255.333px;
+        max-width: 255.333px;
+        min-height: 305.333px;
+        max-height: 305.333px;
     }
 }

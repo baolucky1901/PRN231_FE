@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
-import { BsCartX } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { BsCartX, BsArrowLeft } from "react-icons/bs";
 import { calculateTotal, displayMoney } from "../helpers/utils";
 import useDocTitle from "../hooks/useDocTitle";
 import cartContext from "../contexts/cart/cartContext";
@@ -57,10 +58,19 @@ const Cart = () => {
             />
           ) : (
             <div className="wrapper cart_wrapper">
-              <div className="cart_left_col">
-                {cartItems.map((item) => (
-                  <CartItem key={item.id} {...item} />
-                ))}
+              <div className="cart_left_wrapper">
+                <div className="cart_left_shop">
+                  <Link to="/">
+                      <BsArrowLeft /> &nbsp; Continue Shopping
+                  </Link>
+                </div>
+                <div className="cart_left_col">
+                  {cartItems.map((item) => (
+                    <CartItem key={item.id} {...item} />
+                  ))}
+                  
+                </div>
+                
               </div>
 
               <div className="cart_right_col">

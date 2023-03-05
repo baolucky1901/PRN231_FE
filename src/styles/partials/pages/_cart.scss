@@ -22,8 +22,22 @@
     }
 }
 
+.cart_left_wrapper {
+    display: grid;
+
+    .cart_left_shop {
+        padding-bottom: 20px;
+        font-size: 18.72px;
+        font-weight: bold;
+
+        &:hover {
+            color: #ff0000;
+        }
+    }
+}
+
 .cart_left_col {
-    background: var(--bg-color);
+    background: var(--bg-color-4);
     max-height: 600px;
     padding: 1rem 3rem;
     overflow-x: hidden;
@@ -83,6 +97,10 @@
 
     @include devices(sm) {
         font-size: 0.8rem;
+    }
+
+    &:hover {
+        color: #ff4000;
     }
 }
 

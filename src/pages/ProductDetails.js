@@ -123,11 +123,11 @@ const ProductDetails = () => {
   // console.log("previewImage", previewImg.imgPath);
 
   // calculating Prices
-  const discountedPrice = originalPrice - finalPrice;
-  const newPrice = displayMoney(finalPrice);
-  const oldPrice = displayMoney(originalPrice);
-  const savedPrice = displayMoney(discountedPrice);
-  const savedDiscount = calculateDiscount(discountedPrice, originalPrice);
+  // const discountedPrice = originalPrice - finalPrice;
+  // const newPrice = displayMoney(finalPrice);
+  // const oldPrice = displayMoney(originalPrice);
+  // const savedPrice = displayMoney(discountedPrice);
+  // const savedDiscount = calculateDiscount(discountedPrice, originalPrice);
 
   return (
     <>
@@ -154,9 +154,64 @@ const ProductDetails = () => {
 
             {/*=== Product Details Right-content ===*/}
             <div className="prod_details_right_col">
-              <h1 className="prod_details_title">{title}</h1>
-              <h4 className="prod_details_info">{info}</h4>
-              <h5 className="prod_details_desc">{description}</h5>
+              <h1 className="prod_details_title">{name}</h1>
+              <h4 className="prod_details_info">{categoryName}</h4>
+              
+              <h5 className="prod_details_desc">
+                {description}
+              </h5>
+
+              {/* <div className="prod_details_det">
+
+                <h5 className="prod_details_ele">
+                  <span>
+                    ISBN: 
+                  </span>
+                    {isbn}
+                </h5>
+
+                <h5 className="prod_details_ele">
+                  <span>
+                    Author: 
+                  </span>
+                    {author}
+                </h5>
+
+                <h5 className="prod_details_ele">
+                  <span>
+                    Release Year: 
+                  </span>
+                    {releaseYear}
+                </h5>
+
+                <h5 className="prod_details_ele">
+                  <span>
+                    Version: 
+                  </span>
+                    {version}
+                </h5>
+
+                <h5 className="prod_details_ele">
+                  <span>
+                    Release Year: 
+                  </span>
+                    {releaseYear}
+                </h5>
+
+                <h5 className="prod_details_ele">
+                  <span>
+                    Category Name: 
+                  </span>
+                    {categoryName}
+                </h5>
+
+                <h5 className="prod_details_ele">
+                  <span>
+                    Publisher Name: 
+                  </span>
+                    {publisherName}
+                </h5>
+              </div> */}
 
               <div className="prod_details_ratings">
                 <span className="rating_star">
@@ -174,14 +229,14 @@ const ProductDetails = () => {
                 <div className="price_box">
                   <h2 className="price">
                     {price} &nbsp;
-                    <small className="del_price">
+                    {/* <small className="del_price">
                       <del>{oldPrice}</del>
-                    </small>
+                    </small> */}
                   </h2>
-                  <p className="saved_price">
+                  {/* <p className="saved_price">
                     You save: {savedPrice} ({savedDiscount}%)
                   </p>
-                  <span className="tax_txt">(Inclusive of all taxes)</span>
+                  <span className="tax_txt">(Inclusive of all taxes)</span> */}
                 </div>
 
                 <div className="badge">
@@ -194,7 +249,7 @@ const ProductDetails = () => {
               <div className="separator"></div>
 
               <div className="prod_details_offers">
-                <h4>Type:</h4>
+                <h4>Choose Type:</h4>
                 <div className="prod_details_types">
                   {hasEbook === true && amount > 0 ? (
                     <>
@@ -267,7 +322,7 @@ const ProductDetails = () => {
         </div>
       </section>
 
-      <ProductSummary {...product} />
+      <ProductSummary {...data} />
 
       <section id="related_products" className="section">
         <div className="container">

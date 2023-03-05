@@ -10,6 +10,7 @@ const TopProducts = () => {
   const [products, setProducts] = useState(data);
   const { activeClass, handleActive } = useActive(0);
 
+  console.log("api", products);
   // making a unique set of product's category
   const productsCategory = [
     "All",

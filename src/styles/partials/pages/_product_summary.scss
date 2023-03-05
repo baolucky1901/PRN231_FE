@@ -4,13 +4,14 @@
     ul {
         display: grid;
         gap: 2rem;
+        margin-left: 300px;
     }
 }
 
 .prod_specs {
 
     ul {
-        grid-template-columns: 0.4fr;
+        grid-template-columns: 0.6fr;
 
         li {
             @include flexbox(space-between, center);
