@@ -6,6 +6,7 @@ import Footer from "./components/common/Footer";
 import BackTop from "./components/common/BackTop";
 import { FiltersProvider } from "./contexts/filters/filtersContext";
 import { AuthContextProvider } from "./contexts/auth/AuthContext";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
               <RouterRoutes />
               <Footer />
               <BackTop />
+              <ToastContainer />
             </CartProvider>
           </FiltersProvider>
         </CommonProvider>
