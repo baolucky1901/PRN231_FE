@@ -1,28 +1,14 @@
 import React, { useContext } from "react";
 import { TbTrash } from "react-icons/tb";
 import { Link } from "react-router-dom";
-import { displayMoney } from "../../helpers/utils";
 import cartContext from "../../contexts/cart/cartContext";
 import QuantityBox from "../common/QuantityBox";
-import { IoIosBook, IoMdBook } from "react-icons/io";
+import { IoMdBook } from "react-icons/io";
 
 const CartItem = (props) => {
-  const {
-    id,
-    previewImg,
-    finalPrice,
-    originalPrice,
-    quantity,
-    path,
-    cateItem,
-    price,
-    name,
-  } = props;
+  const { id, previewImg, quantity, path, cateItem, price, name } = props;
 
   const { removeItem } = useContext(cartContext);
-
-  const newPrice = displayMoney(finalPrice);
-  const oldPrice = displayMoney(originalPrice);
 
   return (
     <>
@@ -45,19 +31,14 @@ const CartItem = (props) => {
             </div>
           </div>
           <div className="cart_item_body">
-            <h2 className="cart_item_price">
-              {price} &nbsp;
-              {/* <small>
-                <del>{oldPrice}</del>
-              </small> */}
-            </h2>
+            <h2 className="cart_item_price">{price} &nbsp;</h2>
             <div className="badge">
               <span>
                 <IoMdBook /> {cateItem}
               </span>
             </div>
           </div>
-          <QuantityBox itemId={id} itemQuantity={quantity} />
+          <QuantityBox itemId={id} itemQuantity={quantity} cart={cateItem} />
         </div>
       </div>
     </>

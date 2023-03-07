@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { IoMdStar, IoMdCheckmark } from "react-icons/io";
-import { calculateDiscount, displayMoney } from "../helpers/utils";
 import useDocTitle from "../hooks/useDocTitle";
 import useActive from "../hooks/useActive";
 import cartContext from "../contexts/cart/cartContext";
@@ -10,9 +9,18 @@ import SectionsHead from "../components/common/SectionsHead";
 import RelatedSlider from "../components/sliders/RelatedSlider";
 import ProductSummary from "../components/product/ProductSummary";
 import Services from "../components/common/Services";
+import { UseAuth } from "../contexts/auth/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import commonContext from "../contexts/common/commonContext";
 
 const ProductDetails = () => {
   useDocTitle("Product Details");
+
+  const { user } = UseAuth();
+  // console.log("User Header: ", user);
+
+  const { toggleForm } = useContext(commonContext);
 
   const { handleActive, activeClass } = useActive(0);
 
@@ -26,42 +34,20 @@ const ProductDetails = () => {
   // showing the Product based on the received 'id'
   const product = productsData.find((item) => item.id === prodId);
 
-  const {
-    title,
-    info,
-    category,
-    finalPrice,
-    originalPrice,
-    ratings,
-    rateCount,
-  } = product;
+  const { category, ratings, rateCount } = product;
 
   const [data, setData] = useState({});
   const [image, setImage] = useState([]);
   const [ebookData, setEbookData] = useState({});
 
-  const {
-    id,
-    name,
-    isbn,
-    author,
-    releaseYear,
-    version,
-    price,
-    description,
-    amount,
-    categoryName,
-    publisherName,
-    hasEbook,
-  } = data;
+  const { id, name, price, description, amount, categoryName, hasEbook } = data;
+
+  const subDescription = description?.substring(0, 258);
 
   const [previewImg, setPreviewImg] = useState(image[0]);
 
-  // Select button Book (loai sach)
-
   const [selectedValue, setSelectedValue] = useState("");
 
-  // handling Select-button-Book (loai sach)
   const handleOption = (event) => {
     setSelectedValue(event.target.value);
   };
@@ -92,16 +78,25 @@ const ProductDetails = () => {
     fetchData();
   }, []);
 
+  // console.log("Ebook Data: ", ebookData);
+
   // handling Add-to-cart
   const handleAddItem = () => {
-    addItem({
-      ...data,
-      cateItem: selectedValue,
-      previewImg: previewImg,
-      quantity: 1,
-      price: selectedValue === "E-Book" ? ebookData.price : data.price,
-      id: selectedValue === "E-Book" ? ebookData.id : data.id,
-    });
+    if (Object.keys(user).length === 0) {
+      toggleForm(true);
+    } else if (selectedValue === "") {
+      toast.warning("You must choose type of book!");
+      // alert("You must choose type of book!");
+    } else {
+      addItem({
+        ...data,
+        cateItem: selectedValue,
+        previewImg: previewImg,
+        quantity: 1,
+        price: selectedValue === "E-Book" ? ebookData.price : data.price,
+        id: selectedValue === "E-Book" ? ebookData.ebookId : data.id,
+      });
+    }
   };
 
   // setting the very-first image on re-render
@@ -110,8 +105,6 @@ const ProductDetails = () => {
       setPreviewImg(image[0].imgPath);
       handleActive(0);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // handling Preview image
@@ -119,15 +112,6 @@ const ProductDetails = () => {
     setPreviewImg(image[i].imgPath);
     handleActive(i);
   };
-
-  // console.log("previewImage", previewImg.imgPath);
-
-  // calculating Prices
-  // const discountedPrice = originalPrice - finalPrice;
-  // const newPrice = displayMoney(finalPrice);
-  // const oldPrice = displayMoney(originalPrice);
-  // const savedPrice = displayMoney(discountedPrice);
-  // const savedDiscount = calculateDiscount(discountedPrice, originalPrice);
 
   return (
     <>
@@ -156,62 +140,8 @@ const ProductDetails = () => {
             <div className="prod_details_right_col">
               <h1 className="prod_details_title">{name}</h1>
               <h4 className="prod_details_info">{categoryName}</h4>
-              
-              <h5 className="prod_details_desc">
-                {description}
-              </h5>
 
-              {/* <div className="prod_details_det">
-
-                <h5 className="prod_details_ele">
-                  <span>
-                    ISBN: 
-                  </span>
-                    {isbn}
-                </h5>
-
-                <h5 className="prod_details_ele">
-                  <span>
-                    Author: 
-                  </span>
-                    {author}
-                </h5>
-
-                <h5 className="prod_details_ele">
-                  <span>
-                    Release Year: 
-                  </span>
-                    {releaseYear}
-                </h5>
-
-                <h5 className="prod_details_ele">
-                  <span>
-                    Version: 
-                  </span>
-                    {version}
-                </h5>
-
-                <h5 className="prod_details_ele">
-                  <span>
-                    Release Year: 
-                  </span>
-                    {releaseYear}
-                </h5>
-
-                <h5 className="prod_details_ele">
-                  <span>
-                    Category Name: 
-                  </span>
-                    {categoryName}
-                </h5>
-
-                <h5 className="prod_details_ele">
-                  <span>
-                    Publisher Name: 
-                  </span>
-                    {publisherName}
-                </h5>
-              </div> */}
+              <h5 className="prod_details_desc">{subDescription}...</h5>
 
               <div className="prod_details_ratings">
                 <span className="rating_star">
@@ -227,16 +157,7 @@ const ProductDetails = () => {
 
               <div className="prod_details_price">
                 <div className="price_box">
-                  <h2 className="price">
-                    {price} &nbsp;
-                    {/* <small className="del_price">
-                      <del>{oldPrice}</del>
-                    </small> */}
-                  </h2>
-                  {/* <p className="saved_price">
-                    You save: {savedPrice} ({savedDiscount}%)
-                  </p>
-                  <span className="tax_txt">(Inclusive of all taxes)</span> */}
+                  <h2 className="price">{price} &nbsp;</h2>
                 </div>
 
                 <div className="badge">
@@ -332,6 +253,7 @@ const ProductDetails = () => {
       </section>
 
       <Services />
+      <ToastContainer />
     </>
   );
 };

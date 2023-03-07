@@ -1,5 +1,4 @@
 import { createContext, useEffect, useReducer, useState } from "react";
-// import productsData from "../../data/productsData";
 import { brandsMenu, categoryMenu } from "../../data/filterBarData";
 import filtersReducer from "./filtersReducer";
 
@@ -35,10 +34,8 @@ const FiltersProvider = ({ children }) => {
         "https://localhost:44301/api/books/cus/top-books?page=1&pageSize=10"
       );
       const data = await res.json();
-      // console.log(data.data);
 
       setProducts(data.data);
-      // console.log("products: ", products);
     };
     if (products.length !== 0) {
       return;
@@ -82,7 +79,6 @@ const FiltersProvider = ({ children }) => {
 
         case "Price(Lowest First)":
           updatedProducts = updatedProducts.sort((a, b) => a.price - b.price);
-          console.log("update products: ", updatedProducts);
           break;
 
         case "Price(Highest First)":
@@ -93,21 +89,6 @@ const FiltersProvider = ({ children }) => {
           throw new Error("Wrong Option Selected");
       }
     }
-
-    /*==== Filtering ====*/
-
-    // filter by Brands
-    // const checkedBrandItems = state.updatedBrandsMenu
-    //   .filter((item) => {
-    //     return item.checked;
-    //   })
-    //   .map((item) => item.label.toLowerCase());
-
-    // if (checkedBrandItems.length) {
-    //   updatedProducts = updatedProducts.filter((item) =>
-    //     checkedBrandItems.includes(item.brand.toLowerCase())
-    //   );
-    // }
 
     // filter by Category
     const checkedCategoryItems = state.updatedCategoryMenu

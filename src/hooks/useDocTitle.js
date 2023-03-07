@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 const useDocTitle = (title) => {
-    useEffect(() => {
-        if (title) {
-            document.title = `${title} - X-Beat`;
-        } else {
-            document.title = 'X-Beat | The Perfect Audio Store';
-        }
-    }, [title]);
+  useEffect(() => {
+    if (title) {
+      document.title = `${title}`;
+    } else {
+      document.title = "J4F - ITBook | Book Store";
+    }
+  }, [title]);
 
-    return null;
+  return null;
 };
 
 export default useDocTitle;
