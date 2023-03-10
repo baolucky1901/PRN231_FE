@@ -1,7 +1,9 @@
 #related_products {
     @extend #featured;
+    @extend #combo;
 }
 
 .related_swiper {
     @extend .featured_swiper;
+    @extend .combo_swiper;
 }

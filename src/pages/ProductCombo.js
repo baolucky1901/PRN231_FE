@@ -7,7 +7,7 @@ import cartContext from "../contexts/cart/cartContext";
 import productsData from "../data/productsData";
 import SectionsHead from "../components/common/SectionsHead";
 import RelatedSlider from "../components/sliders/RelatedSlider";
-import ProductSummary from "../components/product/ProductSummary";
+import ProductSummaryCombo from "../components/product/ProductSummaryCombo";
 import Services from "../components/common/Services";
 import { UseAuth } from "../contexts/auth/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import commonContext from "../contexts/common/commonContext";
 
 const ProductDetails = () => {
-  useDocTitle("Book Details");
+  useDocTitle("Book Combo Details");
 
   const { user } = UseAuth();
   // console.log("User Header: ", user);
@@ -40,7 +40,7 @@ const ProductDetails = () => {
   const [image, setImage] = useState([]);
   const [ebookData, setEbookData] = useState({});
 
-  const { id, name, price, description, amount, categoryName, hasEbook } = data;
+  const { id, name, priceReduction, description } = data;
 
   const subDescription = description?.substring(0, 258);
 
@@ -56,23 +56,23 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        `https://localhost:44301/api/books/book/${prodId}`
+        `https://localhost:44301/api/combobooks/combobook/${prodId}`
       );
       const data = await res.json();
       setData(data.data);
 
-      const resImage = await fetch(
-        `https://localhost:44301/api/book-images/book-image/book/${prodId}`
-      );
-      const dataResImage = await resImage.json();
-      setImage(dataResImage.data);
-      setPreviewImg(dataResImage.data[0].imgPath);
+    //   const resImage = await fetch(
+    //     `https://localhost:44301/api/book-images/book-image/book/${prodId}`
+    //   );
+    //   const dataResImage = await resImage.json();
+    //   setImage(dataResImage.data);
+    //   setPreviewImg(dataResImage.data[0].imgPath);
 
-      const resDataEbook = await fetch(
-        `https://localhost:44301/api/ebooks/ebook/book/${prodId}`
-      );
-      const dataResDataEbook = await resDataEbook.json();
-      setEbookData(dataResDataEbook.data);
+    //   const resDataEbook = await fetch(
+    //     `https://localhost:44301/api/ebooks/ebook/book/${prodId}`
+    //   );
+    //   const dataResDataEbook = await resDataEbook.json();
+    //   setEbookData(dataResDataEbook.data);
     };
 
     fetchData();
@@ -109,6 +109,7 @@ const ProductDetails = () => {
 
   // handling Preview image
   const handlePreviewImg = (i) => {
+    // setPreviewImg(image[i].imgPath);
     setPreviewImg(image[i].imgPath);
     handleActive(i);
   };
@@ -128,18 +129,20 @@ const ProductDetails = () => {
                     onClick={() => handlePreviewImg(i)}
                   >
                     <img src={img.imgPath} alt="product-img" />
+                    {/* <img src="https://images.thenile.io/r1000/9781593279509.jpg" alt="product-img" /> */}
                   </div>
                 ))}
               </div>
               <figure className="prod_details_img">
-                <img src={previewImg} alt="product-img" />
+                {/* <img src={previewImg} alt="product-img" /> */}
+                <img src="https://tse3.mm.bing.net/th?id=OIP.agc6rzHESnk7CBUxOLlPtAHaFj&pid=Api&P=0" alt="product-img" />
               </figure>
             </div>
 
             {/*=== Product Details Right-content ===*/}
             <div className="prod_details_right_col">
               <h1 className="prod_details_title">{name}</h1>
-              <h4 className="prod_details_info">{categoryName}</h4>
+              {/* <h4 className="prod_details_info">{categoryName}</h4> */}
 
               <h5 className="prod_details_desc">{subDescription}...</h5>
 
@@ -157,7 +160,7 @@ const ProductDetails = () => {
 
               <div className="prod_details_price">
                 <div className="price_box">
-                  <h2 className="price">{price} &nbsp;</h2>
+                  <h2 className="price">{priceReduction} &nbsp;</h2>
                 </div>
 
                 <div className="badge">
@@ -170,67 +173,11 @@ const ProductDetails = () => {
               <div className="separator"></div>
 
               <div className="prod_details_offers">
-                <h4>Choose Type:</h4>
-                <div className="prod_details_types">
-                  {hasEbook === true && amount > 0 ? (
-                    <>
-                      <div className="prod_details_element physical-book">
-                        <input
-                          type="radio"
-                          id="swatch-0-physical-book"
-                          value="Physical Book"
-                          checked={selectedValue === "Physical Book"}
-                          onChange={handleOption}
-                        />
-                        <label htmlFor="swatch-0-physical-book" className="sd">
-                          <span>Physical Book</span>
-                        </label>
-                      </div>
-                      <div className="prod_details_element e-book">
-                        <input
-                          type="radio"
-                          id="swatch-0-ebook"
-                          value="E-Book"
-                          checked={selectedValue === "E-Book"}
-                          onChange={handleOption}
-                        />
-                        <label htmlFor="swatch-0-ebook" className="sd">
-                          <span>E-Book</span>
-                        </label>
-                      </div>
-                    </>
-                  ) : hasEbook === false && amount > 0 ? (
-                    <div className="prod_details_element physical-book">
-                      <input
-                        type="radio"
-                        id="swatch-0-physical-book"
-                        value="Physical Book"
-                        checked={selectedValue === "Physical Book"}
-                        onChange={handleOption}
-                      />
-                      <label htmlFor="swatch-0-physical-book" className="sd">
-                        <span>Physical Book</span>
-                      </label>
-                    </div>
-                  ) : amount === null ? (
-                    <>
-                      <div className="prod_details_element e-book">
-                        <input
-                          type="radio"
-                          id="swatch-0-ebook"
-                          value="E-Book"
-                          checked={selectedValue === "E-Book"}
-                          onChange={handleOption}
-                        />
-                        <label htmlFor="swatch-0-ebook" className="sd">
-                          <span>E-Book</span>
-                        </label>
-                      </div>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </div>
+                <h4>Name of each book</h4>
+                    <ul>
+                        <li>Eloquent Javascript</li>
+                        <li>Don’t Make Me Think, Revisited: A Common Sense Approach to Web Usability</li>
+                    </ul>
               </div>
               <div className="separator"></div>
               <div className="prod_details_buy_btn">
@@ -243,7 +190,7 @@ const ProductDetails = () => {
         </div>
       </section>
 
-      <ProductSummary {...data} />
+      <ProductSummaryCombo {...data} />
 
       <section id="related_products" className="section">
         <div className="container">

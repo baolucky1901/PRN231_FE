@@ -2,7 +2,7 @@ export const dropdownMenu = [
     {
         id: 1,
         link: "Orders",
-        path: "*",
+        path: "/order",
     },
     {
         id: 2,
