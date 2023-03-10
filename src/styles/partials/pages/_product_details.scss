@@ -157,6 +157,21 @@
     font-weight: 600;
   }
 
+  ul {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+
+    li {
+        @include bordered(1px, var(--text-muted));
+        background-color: #fff;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        padding: 0.6rem;
+        color: #004a44;
+    }
+}
+
   .prod_details_types {
     display: flex;
     gap: 0.8rem;
@@ -177,8 +192,8 @@
       input[type="radio"] + label {
         padding: 7px 10px;
         // margin-right: 10px;
-        font-size: 12px;
-        border: 1px solid #bdbfbe;
+        font-size: 0.9rem;
+        @include bordered(1px, var(--text-muted));
         border-radius: 10px;
         color: #004a44;
 
@@ -196,7 +211,7 @@
         padding: 7px 10px;
         border: none;
         border-radius: 10px;
-        font-size: 12px;
+        font-size: 0.9rem;
       }
 
       label:before {
