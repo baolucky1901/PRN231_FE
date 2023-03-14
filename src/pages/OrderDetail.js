@@ -29,10 +29,13 @@ import { UseAuth } from "../contexts/auth/AuthContext";
 
 const TABLE_HEAD = [
   { id: "id", label: "Id", alignRight: false },
-  { id: "shippingAddress", label: "Address", alignRight: false },
-  { id: "totalPrice", label: "Total Price", alignRight: false },
-  { id: "paymentMethod", label: "Payment Method", alignRight: false },
-  { id: "orderStatus", label: "Order Status", alignRight: false },
+  { id: "bookName", label: "Book", alignRight: false },
+  { id: "eBookName", label: "E-Book", alignRight: false },
+  { id: "priceBook", label: "Price-Book", alignRight: false },
+  { id: "priceEBook", label: "Price-EBook", alignRight: false },
+  { id: "comboBookName", label: "Combo-Book", alignRight: false },
+  { id: "priceCombo", label: "Price-Combo", alignRight: false },
+  { id: "quantity", label: "Quantity", alignRight: false },
   { id: "" },
 ];
 
@@ -70,7 +73,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const Order = () => {
+const OrderDetail = () => {
   useDocTitle("Order History");
 
   const { user } = UseAuth();
@@ -91,10 +94,10 @@ const Order = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const APIUrl = "https://localhost:44301/api/orders/customer/";
+  const APIUrl = "https://localhost:44301/api/order-details/";
 
   useEffect(() => {
-    fetch(APIUrl + `${user._id}?page=1&pageSize=25`)
+    fetch(APIUrl + `${user._id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -175,7 +178,7 @@ const Order = () => {
             mb={5}
           >
             <Typography variant="h4" gutterBottom>
-              Order History
+              Order Details History
             </Typography>
             {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
                     New Category
@@ -210,10 +213,13 @@ const Order = () => {
                         .map((row) => {
                           const {
                             id,
-                            totalPrice,
-                            shippingAddress,
-                            paymentMethod,
-                            orderStatus,
+                            bookName,
+                            priceBook,
+                            eBookName,
+                            priceEBook,
+                            comboBookName,
+                            priceCombo,
+                            quantity
                           } = row;
                           const selectedUser = selected.indexOf(id) !== -1;
 
@@ -231,29 +237,36 @@ const Order = () => {
                                 component="th"
                                 scope="row"
                                 padding="none"
-                              > 
+                              >
                                   <Typography variant="subtitle2" noWrap>
-                                    {shippingAddress}
+                                    {bookName}
                                   </Typography>
                               </TableCell>
-                              <TableCell component="th" scope="row">
-                                {totalPrice}VNĐ
+                              <TableCell align="right" component="th" scope="row">
+                                {priceBook}VNĐ
                               </TableCell>
                               <TableCell component="th" scope="row">
-                                {paymentMethod}
+                                {eBookName}
+                              </TableCell>
+                              <TableCell align="right" component="th" scope="row">
+                                {priceEBook}
                               </TableCell>
                               <TableCell component="th" scope="row">
-                                {orderStatus}
+                                {comboBookName}
+                              </TableCell>
+                              <TableCell align="right" component="th" scope="row">
+                                {priceCombo}
+                              </TableCell>
+                              <TableCell align="right" component="th" scope="row">
+                                {quantity}
                               </TableCell>
                               <TableCell align="right">
                                 {/* <IconButton size="large" color="inherit">
                                   <Iconify icon={"eva:more-vertical-fill"} />
                                 </IconButton> */}
-                                <Link to={`/order-details/${id}`}>
                                 <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
                                     Details
                                 </Button>
-                                </Link>
                               </TableCell>
                             </TableRow>
                           );
@@ -314,4 +327,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default OrderDetail;
