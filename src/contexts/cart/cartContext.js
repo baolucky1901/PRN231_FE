@@ -23,10 +23,10 @@ const CartProvider = ({ children }) => {
     });
   };
 
-  const removeItem = (itemId) => {
+  const removeItem = (item) => {
     return dispatch({
       type: "REMOVE_FROM_CART",
-      payload: { itemId },
+      payload: { item },
     });
   };
 

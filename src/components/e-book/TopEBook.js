@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { BsArrowRight } from "react-icons/bs";
 import useActive from "../../hooks/useActive";
-import ProductCard from "./ProductCard";
 import BackDrop from "../backdrop/BackDrop";
+import EBookCard from "./EBookCard";
 
-const TopProducts = () => {
+const TopEBook = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +39,7 @@ const TopProducts = () => {
     const fetchData = async () => {
       setLoading(true);
       const response = await fetch(
-        "https://localhost:44301/api/books/cus/top-books?page=1&pageSize=10"
+        "https://localhost:44301/api/ebooks/cus/top-ebooks?page=1&pageSize=10"
       );
       const jsonData = await response.json();
       setData(jsonData.data);
@@ -71,11 +71,11 @@ const TopProducts = () => {
           </div>
           <div className="wrapper products_wrapper">
             {products?.slice(0, 11).map((item) => (
-              <ProductCard key={item.id} {...item} />
+              <EBookCard key={item.id} {...item} />
             ))}
             <div className="card products_card browse_card">
-              <Link to="/all-products">
-                Browse All <br /> Products <BsArrowRight />
+              <Link to="/all-ebooks">
+                Browse All <br /> E-Books <BsArrowRight />
               </Link>
             </div>
           </div>
@@ -85,4 +85,4 @@ const TopProducts = () => {
   );
 };
 
-export default TopProducts;
+export default TopEBook;

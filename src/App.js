@@ -7,6 +7,7 @@ import BackTop from "./components/common/BackTop";
 import { FiltersProvider } from "./contexts/filters/filtersContext";
 import { AuthContextProvider } from "./contexts/auth/AuthContext";
 import { ToastContainer } from "react-toastify";
+import { FiltersEBookProvider } from "./contexts/filters/filtersEBookContext";
 
 const App = () => {
   return (
@@ -14,13 +15,15 @@ const App = () => {
       <AuthContextProvider>
         <CommonProvider>
           <FiltersProvider>
-            <CartProvider>
-              <Header />
-              <RouterRoutes />
-              <Footer />
-              <BackTop />
-              <ToastContainer />
-            </CartProvider>
+            <FiltersEBookProvider>
+              <CartProvider>
+                <Header />
+                <RouterRoutes />
+                <Footer />
+                <BackTop />
+                <ToastContainer />
+              </CartProvider>
+            </FiltersEBookProvider>
           </FiltersProvider>
         </CommonProvider>
       </AuthContextProvider>

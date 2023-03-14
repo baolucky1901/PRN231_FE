@@ -3,7 +3,7 @@ import { categoryMenu } from "../../data/filterBarData";
 import filtersReducer from "./filtersReducer";
 
 // Filters-Context
-const filtersContext = createContext();
+const filtersEBookContext = createContext();
 
 // Initial State
 const initialState = {
@@ -22,7 +22,7 @@ const initialState = {
 };
 
 // Filters-Provider Component
-const FiltersProvider = ({ children }) => {
+const FiltersEBookProvider = ({ children }) => {
   const [state, dispatch] = useReducer(filtersReducer, initialState);
   const [products, setProducts] = useState([]);
 
@@ -30,7 +30,7 @@ const FiltersProvider = ({ children }) => {
   useEffect(() => {
     const fetchDataProduct = async () => {
       const res = await fetch(
-        "https://localhost:44301/api/books/cus/top-books?page=1&pageSize=10"
+        "https://localhost:44301/api/ebooks/cus/top-ebooks?page=1&pageSize=11"
       );
       const data = await res.json();
 
@@ -180,9 +180,11 @@ const FiltersProvider = ({ children }) => {
   };
 
   return (
-    <filtersContext.Provider value={values}>{children}</filtersContext.Provider>
+    <filtersEBookContext.Provider value={values}>
+      {children}
+    </filtersEBookContext.Provider>
   );
 };
 
-export default filtersContext;
-export { FiltersProvider };
+export default filtersEBookContext;
+export { FiltersEBookProvider };

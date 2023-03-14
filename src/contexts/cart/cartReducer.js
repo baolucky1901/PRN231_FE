@@ -1,27 +1,26 @@
 const cartReducer = (state, action) => {
+  const { item } = action.payload;
   switch (action.type) {
     case "ADD_TO_CART":
-      const newItemId = action.payload.item.id;
-      const itemExist = state.cartItems.some((item) => item.id === newItemId);
-      //   const itemCateExist = state.cartItems.some(
-      //     (item) => item.cateItem === action.payload.item.cateItem
-      //   );
+      const newItemId = item.bookId || item.ebookId || item.comboBookId;
+      const itemExist = state.cartItems.some(
+        (item) =>
+          item.bookId === newItemId ||
+          item.ebookId === newItemId ||
+          item.comboBookId === newItemId
+      );
 
-      let updatedCartItems = null;
-
-      if (itemExist) {
-        updatedCartItems = state.cartItems.map((item) => {
-          if (item.id === newItemId) {
-            return {
-              ...item,
-              quantity: item.quantity + 1,
-            };
-          }
-          return item;
-        });
-      } else {
-        updatedCartItems = [...state.cartItems, action.payload.item];
-      }
+      let updatedCartItems = itemExist
+        ? state.cartItems.map((cartItem) => ({
+            ...cartItem,
+            quantity:
+              cartItem.bookId === newItemId ||
+              cartItem.ebookId === newItemId ||
+              cartItem.comboBookId === newItemId
+                ? cartItem.quantity + 1
+                : cartItem.quantity,
+          }))
+        : [...state.cartItems, item];
 
       localStorage.setItem("cart", JSON.stringify(updatedCartItems));
 
@@ -31,9 +30,23 @@ const cartReducer = (state, action) => {
       };
 
     case "REMOVE_FROM_CART":
-      const removeItem = state.cartItems.filter(
-        (item) => item.id !== action.payload.itemId
-      );
+      let removeItem;
+      if (item.isBookId) {
+        removeItem = state.cartItems.filter(
+          (newItem) => newItem.bookId !== item.bookId
+        );
+      }
+      if (item.isEBook) {
+        removeItem = state.cartItems.filter(
+          (newItem) => newItem.ebookId !== item.ebookId
+        );
+      }
+      if (item.isComboBook) {
+        removeItem = state.cartItems.filter(
+          (newItem) => newItem.comboBookId !== item.comboBookId
+        );
+      }
+
       localStorage.setItem("cart", JSON.stringify(removeItem));
       return {
         ...state,

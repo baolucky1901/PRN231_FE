@@ -3,32 +3,69 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import cartContext from "../../contexts/cart/cartContext";
 
 const QuantityBox = (props) => {
-  const { itemId, itemQuantity, cart } = props;
+  const { bookId, itemQuantity, comboBookId, ebookId } = props;
 
   const { incrementItem, decrementItem } = useContext(cartContext);
   // console.log("Cart items idEBook: ", cart);
+
+  const handleIncrement = () => {
+    if (check(bookId)) {
+      incrementItem(bookId);
+      return;
+    }
+    if (check(comboBookId)) {
+      incrementItem(comboBookId);
+      return;
+    }
+    if (check(ebookId)) {
+      incrementItem(ebookId);
+      return;
+    }
+  };
+
+  const handleDecrement = () => {
+    if (check(bookId)) {
+      decrementItem(bookId);
+      return;
+    }
+    if (check(comboBookId)) {
+      decrementItem(comboBookId);
+      return;
+    }
+    if (check(ebookId)) {
+      decrementItem(ebookId);
+      return;
+    }
+  };
 
   return (
     <>
       <div className="quantity_box">
         <button
           type="button"
-          onClick={() => decrementItem(itemId)}
-          disabled={cart === "E-Book"}
+          onClick={() => handleDecrement()}
+          disabled={!check(bookId)}
         >
           <FaMinus />
         </button>
         <span className="quantity_count">{itemQuantity}</span>
         <button
           type="button"
-          onClick={() => incrementItem(itemId)}
-          disabled={itemQuantity >= 5 || cart === "E-Book"}
+          onClick={() => handleIncrement()}
+          disabled={itemQuantity >= 5 || !check(bookId)}
         >
           <FaPlus />
         </button>
       </div>
     </>
   );
+};
+
+export const check = (item) => {
+  if (item) {
+    return item !== null || item !== undefined;
+  }
+  return false;
 };
 
 export default QuantityBox;

@@ -7,11 +7,11 @@ import cartContext from "../contexts/cart/cartContext";
 import CartItem from "../components/cart/CartItem";
 import EmptyView from "../components/common/EmptyView";
 import { UseAuth } from "../contexts/auth/AuthContext";
-// import { axiosClient } from "../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 // import checkedImage from "./checked.png";
+import BackDrop from "../components/backdrop/BackDrop";
 
 const Cart = () => {
   useDocTitle("Cart");
@@ -21,7 +21,8 @@ const Cart = () => {
   // console.log("User: ", user._id);
 
   const { cartItems, clearItem } = useContext(cartContext);
-  // console.log("cart: ", cartItems);
+  console.log("cart: ", cartItems);
+  const [loading, setLoading] = useState(false);
 
   const cartQuantity = cartItems.length;
 
@@ -45,6 +46,7 @@ const Cart = () => {
     e.preventDefault();
 
     if (selectedItem === "COD") {
+      setLoading(true);
       const dataPayment = {
         totalPrice: calculateCartTotal,
         shippingAddress: inputValues,
@@ -52,7 +54,7 @@ const Cart = () => {
         paymentMethod: "COD",
       };
       const res = await fetch(
-        "https://localhost:44301/api/orders/order/ocd-payment",
+        "https://localhost:44301/api/orders/order/cod-payment",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -64,12 +66,13 @@ const Cart = () => {
         const promises = cartItems.map((item) => {
           const dataOrderDetail = {
             orderId: dataRes.data,
-            ebookId: item.cateItem === "E-Book" ? item.id : null,
-            bookId: item.cateItem !== "E-Book" ? item.id : null,
-            comboBookId: null,
+            ebookId: item.ebookId === undefined ? null : item.ebookId,
+            bookId: item.bookId === undefined ? null : item.bookId,
+            comboBookId:
+              item.comboBookId === undefined ? null : item.comboBookId,
             quantity: item.quantity,
           };
-          // console.log("dataOrderDetail", dataOrderDetail);
+          console.log("dataOrderDetail", dataOrderDetail);
           return fetch(
             "https://localhost:44301/api/order-details/order-detail",
             {
@@ -82,6 +85,7 @@ const Cart = () => {
         const response = await Promise.all(promises);
         if (response != null) {
           toast.success("Your order create successfully");
+          setLoading(false);
           clearItem();
           navigate("/");
         } else {
@@ -93,6 +97,7 @@ const Cart = () => {
     }
 
     if (selectedItem === "VNPay") {
+      setLoading(true);
       const dataPayment = {
         totalPrice: calculateCartTotal,
         shippingAddress: inputValues,
@@ -130,6 +135,7 @@ const Cart = () => {
         const response = await Promise.all(promises);
         if (response !== null) {
           window.open(url, "_blank");
+          setLoading(false);
           clearItem();
           navigate("/");
         } else {
@@ -143,127 +149,129 @@ const Cart = () => {
 
   return (
     <>
-      <section id="cart" className="section">
-        <div className="container">
-          {cartQuantity === 0 ? (
-            <EmptyView
-              icon={<BsCartX />}
-              msg="Your Cart is Empty"
-              link="/all-products"
-              btnText="Start Shopping"
-            />
-          ) : (
-            <div className="wrapper cart_wrapper">
-              <div className="cart_left_wrapper">
-                <div className="cart_left_shop">
-                  <Link to="/">
-                    <BsArrowLeft /> &nbsp; Continue Shopping
-                  </Link>
-                </div>
-                <div className="cart_left_col">
-                  {cartItems.map((item) => (
-                    <CartItem key={item.id} {...item} />
-                  ))}
-                </div>
-              </div>
-              <form onSubmit={handleSubmit}>
-                <div className="cart_right_col">
-                  <div className="order_summary">
-                    <h3>
-                      Order Summary &nbsp; ( {cartQuantity}{" "}
-                      {cartQuantity > 1 ? "items" : "item"} )
-                    </h3>
-                    <div className="order_summary_details">
-                      {/* <div className="price">
-                      <span>Original Price</span>
-                      <b>{displayCartTotal}Đ</b>
-                    </div> */}
-                      <div className="discount">
-                        <span>Discount</span>
-                        <b>- 0Đ</b>
-                      </div>
-                      <div className="delivery">
-                        <span>Delivery</span>
-                        <b>30,000Đ</b>
-                      </div>
-                      <div className="shipping_address">
-                        <span>Shipping Address</span>
-                        <div className="input_box">
-                          <textarea
-                            type="text"
-                            name="username"
-                            placeholder="Ex: place number + street name + ward + district"
-                            cols={25}
-                            rows={7}
-                            className="input_field"
-                            value={inputValues}
-                            onChange={(e) => setInputValues(e.target.value)}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="payment_method">
-                        <div className="payment">
-                          <label htmlFor="VNPay" className="box first">
-                            <input
-                              type="radio"
-                              id="VNPay"
-                              name="item"
-                              checked={selectedItem === "VNPay"}
-                              onChange={() => handleClick("VNPay")}
-                            />
-                            <img src="../public/vnpaylogo" alt="" />
-                            <div className="detail">
-                              {/* <span className="circle_icon"></span>  */}
-                              <div className="detail-description">
-                                <span className="detail-title">VNPay</span>
-                                <span className="detail-detail">
-                                  Make payments via VNPay. Orders will be
-                                  shipped after payment has been made
-                                </span>
-                              </div>
+      {loading ? (
+        <BackDrop />
+      ) : (
+        <>
+          <section id="cart" className="section">
+            <div className="container">
+              {cartQuantity === 0 ? (
+                <EmptyView
+                  icon={<BsCartX />}
+                  msg="Your Cart is Empty"
+                  link="/all-products"
+                  btnText="Start Shopping"
+                />
+              ) : (
+                <div className="wrapper cart_wrapper">
+                  <div className="cart_left_wrapper">
+                    <div className="cart_left_shop">
+                      <Link to="/">
+                        <BsArrowLeft /> &nbsp; Continue Shopping
+                      </Link>
+                    </div>
+                    <div className="cart_left_col">
+                      {cartItems.map((item) => (
+                        <CartItem key={item.id} {...item} />
+                      ))}
+                    </div>
+                  </div>
+                  <form onSubmit={handleSubmit}>
+                    <div className="cart_right_col">
+                      <div className="order_summary">
+                        <h3>
+                          Order Summary &nbsp; ( {cartQuantity}{" "}
+                          {cartQuantity > 1 ? "items" : "item"} )
+                        </h3>
+                        <div className="order_summary_details">
+                          <div className="discount">
+                            <span>Discount</span>
+                            <b>- 0VNĐ</b>
+                          </div>
+                          <div className="delivery">
+                            <span>Delivery</span>
+                            <b>30,000VNĐ</b>
+                          </div>
+                          <div className="shipping_address">
+                            <span>Shipping Address</span>
+                            <div className="input_box">
+                              <textarea
+                                type="text"
+                                name="username"
+                                placeholder="Ex: place number + street name + ward + district"
+                                cols={25}
+                                rows={7}
+                                className="input_field"
+                                value={inputValues}
+                                onChange={(e) => setInputValues(e.target.value)}
+                                required
+                              />
                             </div>
-                          </label>
-                          <label htmlFor="tienmat" className="box second">
-                            <input
-                              type="radio"
-                              id="tienmat"
-                              name="item"
-                              checked={selectedItem === "COD"}
-                              onChange={() => handleClick("COD")}
-                            />
-                            <div className="detail">
-                              <div className="detail-description">
-                                <span className="detail-title">
-                                  Cash on Delivery
-                                </span>
-                                <span className="detail-detail">
-                                  Pay the deliverer or shipper using cash or
-                                  card
-                                </span>
-                              </div>
+                          </div>
+                          <div className="payment_method">
+                            <div className="payment">
+                              <label htmlFor="VNPay" className="box first">
+                                <input
+                                  type="radio"
+                                  id="VNPay"
+                                  name="item"
+                                  checked={selectedItem === "VNPay"}
+                                  onChange={() => handleClick("VNPay")}
+                                />
+                                <img src="../public/vnpaylogo" alt="" />
+                                <div className="detail">
+                                  {/* <span className="circle_icon"></span>  */}
+                                  <div className="detail-description">
+                                    <span className="detail-title">VNPay</span>
+                                    <span className="detail-detail">
+                                      Make payments via VNPay. Orders will be
+                                      shipped after payment has been made
+                                    </span>
+                                  </div>
+                                </div>
+                              </label>
+                              <label htmlFor="tienmat" className="box second">
+                                <input
+                                  type="radio"
+                                  id="tienmat"
+                                  name="item"
+                                  checked={selectedItem === "COD"}
+                                  onChange={() => handleClick("COD")}
+                                />
+                                <div className="detail">
+                                  <div className="detail-description">
+                                    <span className="detail-title">
+                                      Cash on Delivery
+                                    </span>
+                                    <span className="detail-detail">
+                                      Pay the deliverer or shipper using cash or
+                                      card
+                                    </span>
+                                  </div>
+                                </div>
+                              </label>
                             </div>
-                          </label>
+                          </div>
+                          <div className="separator"></div>
+                          <div className="total_price">
+                            <b>
+                              <small>Total Price</small>
+                            </b>
+                            <b>{calculateCartTotal}VNĐ</b>
+                          </div>
                         </div>
-                      </div>
-                      <div className="separator"></div>
-                      <div className="total_price">
-                        <b>
-                          <small>Total Price</small>
-                        </b>
-                        <b>{calculateCartTotal}VNĐ</b>
+                        <button type="submit" className="btn checkout_btn">
+                          Checkout
+                        </button>
                       </div>
                     </div>
-                    <button type="submit" className="btn checkout_btn">
-                      Checkout
-                    </button>
-                  </div>
+                  </form>
                 </div>
-              </form>
+              )}
             </div>
-          )}
-        </div>
-      </section>
+          </section>
+        </>
+      )}
     </>
   );
 };

@@ -8,6 +8,8 @@ import ProductDetails from "../pages/ProductDetails";
 import ProductCombo from "../pages/ProductCombo";
 import ErrorPage from "../pages/ErrorPage";
 import Order from "../pages/Order";
+import EBookDetails from "../pages/EBookDetails";
+import AllEBook from "../pages/AllEBook";
 
 const RouterRoutes = () => {
   useScrollRestore();
@@ -23,6 +25,8 @@ const RouterRoutes = () => {
           path="/product-details/:productId"
           element={<ProductDetails />}
         />
+        <Route path="all-ebooks" element={<AllEBook />} />
+        <Route path="/e-book-details/:ebookId" element={<EBookDetails />} />
         <Route
           path="/product-combo-details/:productId"
           element={<ProductCombo />}
