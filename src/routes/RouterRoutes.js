@@ -10,6 +10,7 @@ import ErrorPage from "../pages/ErrorPage";
 import Order from "../pages/Order";
 import EBookDetails from "../pages/EBookDetails";
 import AllEBook from "../pages/AllEBook";
+import OrderDetail from "../pages/OrderDetail";
 
 const RouterRoutes = () => {
   useScrollRestore();
@@ -20,6 +21,10 @@ const RouterRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Order />} />
+        <Route
+          path="/order-details/:orderId"
+          element={<OrderDetail />}
+        />
         <Route path="/all-products" element={<AllProducts />} />
         <Route
           path="/product-details/:productId"
