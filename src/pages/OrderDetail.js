@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { filter } from "lodash";
 import Services from "../components/common/Services";
 import useDocTitle from "../hooks/useDocTitle";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 // @mui
 import {
   Card,
@@ -13,30 +13,26 @@ import {
   TableBody,
   TableCell,
   Typography,
-  IconButton,
-  Button,
   TableContainer,
   TablePagination,
 } from "@mui/material";
 // components
-import Iconify from "../components/iconify";
 import Scrollbar from "../components/scrollbar";
 import BackDrop from "../components/backdrop";
 // sections
 import { UserListHead, UserListToolbar } from "../section/@header/order";
-import { UseAuth } from "../contexts/auth/AuthContext";
 // ===========================================================================
 
 const TABLE_HEAD = [
   { id: "id", label: "Id", alignRight: false },
+  { id: "orderId", label: "OrderId", alignRight: false },
   { id: "bookName", label: "Book", alignRight: false },
-  { id: "eBookName", label: "E-Book", alignRight: false },
   { id: "priceBook", label: "Price-Book", alignRight: false },
+  { id: "eBookName", label: "E-Book", alignRight: false },
   { id: "priceEBook", label: "Price-EBook", alignRight: false },
   { id: "comboBookName", label: "Combo-Book", alignRight: false },
   { id: "priceCombo", label: "Price-Combo", alignRight: false },
   { id: "quantity", label: "Quantity", alignRight: false },
-  { id: "" },
 ];
 
 // ----------------------------------------------------------------------
@@ -76,8 +72,6 @@ function applySortFilter(array, comparator, query) {
 const OrderDetail = () => {
   useDocTitle("Order History");
 
-  const { user } = UseAuth();
-
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState("desc");
@@ -94,10 +88,15 @@ const OrderDetail = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const { orderId } = useParams();
+
+  // here the 'id' received has 'string-type', so converting it to a 'Number'
+  const prodId = parseInt(orderId);
+
   const APIUrl = "https://localhost:44301/api/order-details/";
 
   useEffect(() => {
-    fetch(APIUrl + `${user._id}`)
+    fetch(APIUrl + `${prodId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -213,13 +212,14 @@ const OrderDetail = () => {
                         .map((row) => {
                           const {
                             id,
+                            orderId,
                             bookName,
                             priceBook,
                             eBookName,
                             priceEBook,
                             comboBookName,
                             priceCombo,
-                            quantity
+                            quantity,
                           } = row;
                           const selectedUser = selected.indexOf(id) !== -1;
 
@@ -233,41 +233,43 @@ const OrderDetail = () => {
                             >
                               <TableCell align="left">{id}</TableCell>
 
+                              <TableCell>{orderId}</TableCell>
+
                               <TableCell
                                 component="th"
                                 scope="row"
                                 padding="none"
                               >
-                                  <Typography variant="subtitle2" noWrap>
-                                    {bookName}
-                                  </Typography>
-                              </TableCell>
-                              <TableCell align="right" component="th" scope="row">
-                                {priceBook}VNĐ
+                                <Typography variant="subtitle2" noWrap>
+                                  {bookName ?? "----"}
+                                </Typography>
                               </TableCell>
                               <TableCell component="th" scope="row">
-                                {eBookName}
+                                {priceBook ? `${priceBook} VND` : "----"}
                               </TableCell>
-                              <TableCell align="right" component="th" scope="row">
-                                {priceEBook}
+                              <TableCell
+                                component="th"
+                                scope="row"
+                                padding="none"
+                              >
+                                <Typography variant="subtitle2" noWrap>
+                                  {eBookName ?? "----"}
+                                </Typography>
                               </TableCell>
                               <TableCell component="th" scope="row">
-                                {comboBookName}
+                                {priceEBook ? `${priceEBook} VND` : "----"}
                               </TableCell>
-                              <TableCell align="right" component="th" scope="row">
-                                {priceCombo}
+                              <TableCell component="th" scope="row">
+                                {comboBookName ?? "----"}
                               </TableCell>
-                              <TableCell align="right" component="th" scope="row">
+                              <TableCell component="th" scope="row">
+                                {priceCombo ? `${priceCombo} VND` : "----"}
+                              </TableCell>
+                              <TableCell component="th" scope="row">
                                 {quantity}
                               </TableCell>
-                              <TableCell align="right">
-                                {/* <IconButton size="large" color="inherit">
-                                  <Iconify icon={"eva:more-vertical-fill"} />
-                                </IconButton> */}
-                                <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                    Details
-                                </Button>
-                              </TableCell>
+
+                              {/* <TableCell align="right"></TableCell> */}
                             </TableRow>
                           );
                         })}

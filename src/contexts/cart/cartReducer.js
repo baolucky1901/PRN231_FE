@@ -1,7 +1,7 @@
 const cartReducer = (state, action) => {
-  const { item } = action.payload;
   switch (action.type) {
     case "ADD_TO_CART":
+      const { item } = action.payload;
       const newItemId = item.bookId || item.ebookId || item.comboBookId;
       const itemExist = state.cartItems.some(
         (item) =>
@@ -30,20 +30,21 @@ const cartReducer = (state, action) => {
       };
 
     case "REMOVE_FROM_CART":
+      const { item: item2 } = action.payload;
       let removeItem;
-      if (item.isBookId) {
+      if (item2.isBookId) {
         removeItem = state.cartItems.filter(
-          (newItem) => newItem.bookId !== item.bookId
+          (newItem) => newItem.bookId !== item2.bookId
         );
       }
-      if (item.isEBook) {
+      if (item2.isEBook) {
         removeItem = state.cartItems.filter(
-          (newItem) => newItem.ebookId !== item.ebookId
+          (newItem) => newItem.ebookId !== item2.ebookId
         );
       }
-      if (item.isComboBook) {
+      if (item2.isComboBook) {
         removeItem = state.cartItems.filter(
-          (newItem) => newItem.comboBookId !== item.comboBookId
+          (newItem) => newItem.comboBookId !== item2.comboBookId
         );
       }
 

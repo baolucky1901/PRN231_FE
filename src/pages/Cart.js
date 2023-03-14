@@ -134,7 +134,7 @@ const Cart = () => {
         });
         const response = await Promise.all(promises);
         if (response !== null) {
-          window.open(url, "_blank");
+          window.open(url);
           setLoading(false);
           clearItem();
           navigate("/");
