@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { filter } from "lodash";
 import Services from "../components/common/Services";
 import useDocTitle from "../hooks/useDocTitle";
-import { Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 // @mui
 import {
   Card,
@@ -13,28 +13,27 @@ import {
   TableBody,
   TableCell,
   Typography,
-  IconButton,
-  Button,
   TableContainer,
   TablePagination,
+  Button
 } from "@mui/material";
 // components
-import Label from '../components/label';
-import Iconify from "../components/iconify";
 import Scrollbar from "../components/scrollbar";
 import BackDrop from "../components/backdrop";
 // sections
 import { UserListHead, UserListToolbar } from "../section/@header/order";
-import { UseAuth } from "../contexts/auth/AuthContext";
 // ===========================================================================
 
 const TABLE_HEAD = [
   { id: "id", label: "Id", alignRight: false },
-  { id: "shippingAddress", label: "Address", alignRight: false },
-  { id: "totalPrice", label: "Total Price", alignRight: false },
-  { id: "paymentMethod", label: "Payment Method", alignRight: false },
-  { id: "orderStatus", label: "Order Status", alignRight: false },
-  { id: "" },
+  { id: "orderId", label: "OrderId", alignRight: false },
+  { id: "bookName", label: "Book", alignRight: false },
+  { id: "priceBook", label: "Price-Book", alignRight: false },
+  { id: "eBookName", label: "E-Book", alignRight: false },
+  { id: "priceEBook", label: "Price-EBook", alignRight: false },
+  { id: "comboBookName", label: "Combo-Book", alignRight: false },
+  { id: "priceCombo", label: "Price-Combo", alignRight: false },
+  { id: "quantity", label: "Quantity", alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -71,10 +70,8 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const Order = () => {
+const OrderDetailCancle = () => {
   useDocTitle("Order History");
-
-  const { user } = UseAuth();
 
   const [page, setPage] = useState(0);
 
@@ -92,10 +89,15 @@ const Order = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const APIUrl = "https://localhost:44301/api/orders/customer/";
+  const { orderId } = useParams();
+
+  // here the 'id' received has 'string-type', so converting it to a 'Number'
+  const prodId = parseInt(orderId);
+
+  const APIUrl = "https://localhost:44301/api/order-details/";
 
   useEffect(() => {
-    fetch(APIUrl + `${user._id}?page=1&pageSize=25`)
+    fetch(APIUrl + `${prodId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error(
@@ -165,6 +167,19 @@ const Order = () => {
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
+  const navigate = useNavigate();
+  const handleChangeStatusToCancle = async () => {
+    const response = await fetch('https://localhost:44301/api/orders/order/order-status/cancel?orderId='+prodId, {
+      method: 'PUT',
+      body: JSON.stringify({ /* data to be sent in the request body */ }),
+    })
+    navigate('/order');
+  }
+
+  const handleReturnToListOrder = async () => {
+    navigate('/order');
+  }
+
   return (
     <>
       <section id="order_details" className="section">
@@ -176,7 +191,7 @@ const Order = () => {
             mb={5}
           >
             <Typography variant="h4" gutterBottom>
-              Order History
+              Order Details History - Cancel
             </Typography>
             {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
                     New Category
@@ -211,10 +226,14 @@ const Order = () => {
                         .map((row) => {
                           const {
                             id,
-                            totalPrice,
-                            shippingAddress,
-                            paymentMethod,
-                            orderStatus,
+                            orderId,
+                            bookName,
+                            priceBook,
+                            eBookName,
+                            priceEBook,
+                            comboBookName,
+                            priceCombo,
+                            quantity,
                           } = row;
                           const selectedUser = selected.indexOf(id) !== -1;
 
@@ -228,122 +247,57 @@ const Order = () => {
                             >
                               <TableCell align="left">{id}</TableCell>
 
+                              <TableCell>
+                                <Stack direction="row" alignItems="center"spacing={2}>
+                                  {orderId}
+                                </Stack>
+                              </TableCell>
+
                               <TableCell
                                 component="th"
                                 scope="row"
                                 padding="none"
-                              > 
+                              >
                                 <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    <Typography variant="subtitle2" noWrap>
-                                      {shippingAddress}
-                                    </Typography>
+                                  <Typography variant="subtitle2" noWrap>
+                                    {bookName ?? "----"}
+                                  </Typography>
                                 </Stack>
                               </TableCell>
                               <TableCell component="th" scope="row">
-                                {totalPrice}VNĐ
+                                {priceBook ? `${priceBook} VND` : "----"}
                               </TableCell>
-                              <TableCell component="th" scope="row">
-                                {paymentMethod}
-                              </TableCell>
-                              <TableCell component="th" scope="row">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                  {/* <Avatar alt={name} src={imgPath} /> */}
+                              <TableCell
+                                component="th"
+                                scope="row"
+                                padding="none"
+                              >
+                                <Stack direction="row" alignItems="center" padding={2} spacing={2}>
                                   <Typography variant="subtitle2" noWrap>
-                                  {orderStatus === "In_Progress" ?
-                                  <Label color={('warning')}>In_Progress</Label> : orderStatus === "Accepted" ?
-                                  <Label color={('primary')}>Accepted</Label> : orderStatus === "Paid" ?
-                                  <Label color={('default')}>Paid</Label> :  orderStatus === "Physical_book_delivered" ?
-                                  <Label color={('secondary')}>Physical_book_delivered</Label> : orderStatus === "Ebook_delivered" ?
-                                  <Label color={('secondary')}>Ebook_delivered</Label> : orderStatus === "Done" ?
-                                  <Label color={('success')}>Done</Label> : orderStatus === "Cancel" ?
-                                  <Label color={('error')}>Cancel</Label> : <></>
-                                  }
-                                </Typography>
-                              </Stack>
+                                    {eBookName ?? "----"}
+                                  </Typography>
+                                </Stack>
                               </TableCell>
-                              {orderStatus ==="In_Progress" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
-                                    
-                                    <Link to={`/order-details-cancle/${id}`}>
-                                      <Button variant="contained" color="error" startIcon={<Iconify icon={"material-symbols:cancel"} />}>
-                                          Cancel
-                                      </Button>
-                                    </Link>
-                                    <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
-                                      </Button>
-                                    </Link>
-                                  </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-                              {orderStatus ==="Accepted" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
-                                    <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
-                                      </Button>
-                                    </Link>
-                                  </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-                              {orderStatus ==="Paid" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
-                                    <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
-                                      </Button>
-                                    </Link>
-                                  </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-                              {orderStatus ==="Done" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
-                                    <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
-                                      </Button>
-                                    </Link>
-                                  </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-                              {orderStatus ==="Cancel" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
-                                    <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
-                                      </Button>
-                                    </Link>
-                                  </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-
+                              <TableCell component="th" scope="row">
+                                {priceEBook ? `${priceEBook} VND` : "----"}
+                              </TableCell>
+                              <TableCell component="th" scope="row">
+                                <Stack direction="row" alignItems="center" padding={2} spacing={2}>
+                                  <Typography variant="subtitle2" noWrap>
+                                    {comboBookName ?? "----"}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                              <TableCell component="th" scope="row">
+                                {priceCombo ? `${priceCombo} VND` : "----"}
+                              </TableCell>
+                              <TableCell component="th" scope="row">
+                                {quantity}
+                              </TableCell>
+                              
+                              {/* <TableCell align="right"></TableCell> */}
                             </TableRow>
+                            
                           );
                         })}
                       {emptyRows > 0 && (
@@ -351,6 +305,10 @@ const Order = () => {
                           <TableCell colSpan={6} />
                         </TableRow>
                       )}
+                      <Stack direction="row" alignItems="center" spacing={2}  marginTop="24px" marginLeft="24px">
+                                <Button variant="contained" color="error" onClick={handleChangeStatusToCancle}>Cancel</Button>
+                                <Button variant="outlined" onClick={handleReturnToListOrder}>Return</Button>
+                              </Stack>
                     </TableBody>
 
                     {isNotFound && (
@@ -402,4 +360,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default OrderDetailCancle;
