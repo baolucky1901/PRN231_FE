@@ -72,7 +72,7 @@ const Cart = () => {
               item.comboBookId === undefined ? null : item.comboBookId,
             quantity: item.quantity,
           };
-          console.log("dataOrderDetail", dataOrderDetail);
+          // console.log("dataOrderDetail", dataOrderDetail);
           return fetch(
             "https://localhost:44301/api/order-details/order-detail",
             {
@@ -117,12 +117,13 @@ const Cart = () => {
         const promises = cartItems.map((item) => {
           const dataOrderDetail = {
             orderId: dataRes.data.orderId,
-            ebookId: item.cateItem === "E-Book" ? item.id : null,
-            bookId: item.cateItem !== "E-Book" ? item.id : null,
-            comboBookId: null,
+            ebookId: item.ebookId === undefined ? null : item.ebookId,
+            bookId: item.bookId === undefined ? null : item.bookId,
+            comboBookId:
+              item.comboBookId === undefined ? null : item.comboBookId,
             quantity: item.quantity,
           };
-          // console.log("dataOrderDetail", dataOrderDetail);
+          console.log("dataOrderDetail", dataOrderDetail);
           return fetch(
             "https://localhost:44301/api/order-details/order-detail",
             {

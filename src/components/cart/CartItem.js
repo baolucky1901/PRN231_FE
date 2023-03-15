@@ -19,7 +19,6 @@ const CartItem = (props) => {
     name,
   } = props;
   // console.log("id", id);
-
   const { removeItem } = useContext(cartContext);
 
   const handleRemove = () => {
