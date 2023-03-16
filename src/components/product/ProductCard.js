@@ -4,7 +4,7 @@ import cartContext from "../../contexts/cart/cartContext";
 import useActive from "../../hooks/useActive";
 
 const ProductCard = (props) => {
-  const { id, name, imgPath, price } = props;
+  const { id, name, imgPath, price, amount } = props;
 
   const { addItem } = useContext(cartContext);
   const { active, handleActive, activeClass } = useActive(false);
@@ -17,7 +17,13 @@ const ProductCard = (props) => {
 
   // handling Add-to-cart
   const handleAddItem = () => {
-    const item = { ...props, previewImg: previewImg, quantity: 1, bookId: id };
+    const item = {
+      ...props,
+      previewImg: previewImg,
+      quantity: 1,
+      bookId: id,
+      bookAmount: amount,
+    };
     addItem(item);
 
     handleActive(id);

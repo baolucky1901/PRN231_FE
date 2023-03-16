@@ -3,11 +3,11 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import cartContext from "../../contexts/cart/cartContext";
 
 const QuantityBox = (props) => {
-  const { bookId, itemQuantity, comboBookId, ebookId } = props;
+  const { bookId, itemQuantity, comboBookId, ebookId, bookAmount } = props;
 
   const { incrementItem, decrementItem } = useContext(cartContext);
   // console.log("Cart items idEBook: ", cart);
-
+  console.log("baInQuantityBox", bookAmount);
   const handleIncrement = () => {
     if (check(bookId)) {
       incrementItem(bookId);
@@ -52,7 +52,7 @@ const QuantityBox = (props) => {
         <button
           type="button"
           onClick={() => handleIncrement()}
-          disabled={itemQuantity >= 5 || !check(bookId)}
+          disabled={!check(bookId) || itemQuantity >= bookAmount}
         >
           <FaPlus />
         </button>
