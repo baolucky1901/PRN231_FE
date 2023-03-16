@@ -12,6 +12,7 @@ import EBookDetails from "../pages/EBookDetails";
 import AllEBook from "../pages/AllEBook";
 import OrderDetail from "../pages/OrderDetail";
 import OrderDetailCancle from "../pages/OrderDetailCancle";
+import OrderDetailDone from "../pages/OrderDetailDone";
 
 const RouterRoutes = () => {
   useScrollRestore();
@@ -22,13 +23,14 @@ const RouterRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Order />} />
-        <Route
-          path="/order-details/:orderId"
-          element={<OrderDetail />}
-        />
+        <Route path="/order-details/:orderId" element={<OrderDetail />} />
         <Route
           path="/order-details-cancle/:orderId"
           element={<OrderDetailCancle />}
+        />
+        <Route
+          path="/order-details-done/:orderId"
+          element={<OrderDetailDone />}
         />
         <Route path="/all-products" element={<AllProducts />} />
         <Route

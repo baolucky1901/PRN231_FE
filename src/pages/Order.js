@@ -13,13 +13,12 @@ import {
   TableBody,
   TableCell,
   Typography,
-  IconButton,
   Button,
   TableContainer,
   TablePagination,
 } from "@mui/material";
 // components
-import Label from '../components/label';
+import Label from "../components/label";
 import Iconify from "../components/iconify";
 import Scrollbar from "../components/scrollbar";
 import BackDrop from "../components/backdrop";
@@ -116,14 +115,6 @@ const Order = () => {
       });
   }, []);
 
-  // const handleOpenMenu = (event) => {
-  //   setOpen(event.currentTarget);
-  // };
-
-  // const handleCloseMenu = () => {
-  //   setOpen(null);
-  // };
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -178,9 +169,6 @@ const Order = () => {
             <Typography variant="h4" gutterBottom>
               Order History
             </Typography>
-            {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-                    New Category
-                </Button> */}
           </Stack>
           {loading ? (
             <Card>
@@ -232,11 +220,16 @@ const Order = () => {
                                 component="th"
                                 scope="row"
                                 padding="none"
-                              > 
-                                <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    <Typography variant="subtitle2" noWrap>
-                                      {shippingAddress}
-                                    </Typography>
+                              >
+                                <Stack
+                                  direction="row"
+                                  alignItems="center"
+                                  padding={2}
+                                  spacing={2}
+                                >
+                                  <Typography variant="subtitle2" noWrap>
+                                    {shippingAddress}
+                                  </Typography>
                                 </Stack>
                               </TableCell>
                               <TableCell component="th" scope="row">
@@ -246,103 +239,234 @@ const Order = () => {
                                 {paymentMethod}
                               </TableCell>
                               <TableCell component="th" scope="row">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                  {/* <Avatar alt={name} src={imgPath} /> */}
+                                <Stack
+                                  direction="row"
+                                  alignItems="center"
+                                  spacing={2}
+                                >
                                   <Typography variant="subtitle2" noWrap>
-                                  {orderStatus === "In_Progress" ?
-                                  <Label color={('warning')}>In_Progress</Label> : orderStatus === "Accepted" ?
-                                  <Label color={('primary')}>Accepted</Label> : orderStatus === "Paid" ?
-                                  <Label color={('default')}>Paid</Label> :  orderStatus === "Physical_book_delivered" ?
-                                  <Label color={('secondary')}>Physical_book_delivered</Label> : orderStatus === "Ebook_delivered" ?
-                                  <Label color={('secondary')}>Ebook_delivered</Label> : orderStatus === "Done" ?
-                                  <Label color={('success')}>Done</Label> : orderStatus === "Cancel" ?
-                                  <Label color={('error')}>Cancel</Label> : <></>
-                                  }
-                                </Typography>
-                              </Stack>
+                                    {orderStatus === "In_Progress" ? (
+                                      <Label color={"warning"}>
+                                        In_Progress
+                                      </Label>
+                                    ) : orderStatus === "Accepted" ? (
+                                      <Label color={"primary"}>Accepted</Label>
+                                    ) : orderStatus === "Paid" ? (
+                                      <Label color={"default"}>Paid</Label>
+                                    ) : orderStatus ===
+                                      "Physical_book_delivered" ? (
+                                      <Label color={"secondary"}>
+                                        Physical_book_delivered
+                                      </Label>
+                                    ) : orderStatus === "Ebook_delivered" ? (
+                                      <Label color={"secondary"}>
+                                        Ebook_delivered
+                                      </Label>
+                                    ) : orderStatus === "Done" ? (
+                                      <Label color={"success"}>Done</Label>
+                                    ) : orderStatus === "Cancel" ? (
+                                      <Label color={"error"}>Cancel</Label>
+                                    ) : (
+                                      <></>
+                                    )}
+                                  </Typography>
+                                </Stack>
                               </TableCell>
-                              {orderStatus ==="In_Progress" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
-                                    
+                              {orderStatus === "In_Progress" ? (
+                                <TableCell
+                                  align="left"
+                                  style={{ display: "flex" }}
+                                >
+                                  <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    padding={2}
+                                    spacing={2}
+                                  >
                                     <Link to={`/order-details-cancle/${id}`}>
-                                      <Button variant="contained" color="error" startIcon={<Iconify icon={"material-symbols:cancel"} />}>
-                                          Cancel
+                                      <Button
+                                        variant="contained"
+                                        color="error"
+                                        startIcon={
+                                          <Iconify
+                                            icon={"material-symbols:cancel"}
+                                          />
+                                        }
+                                      >
+                                        Cancel
                                       </Button>
                                     </Link>
                                     <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
+                                      <Button
+                                        variant="contained"
+                                        startIcon={
+                                          <Iconify icon={"eva:edit-fill"} />
+                                        }
+                                      >
+                                        Details
                                       </Button>
                                     </Link>
                                   </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-                              {orderStatus ==="Accepted" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
+                                </TableCell>
+                              ) : (
+                                <></>
+                              )}
+                              {orderStatus === "Accepted" ? (
+                                <TableCell
+                                  align="left"
+                                  style={{ display: "flex" }}
+                                >
+                                  <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    padding={2}
+                                    spacing={2}
+                                  >
                                     <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
+                                      <Button
+                                        variant="contained"
+                                        startIcon={
+                                          <Iconify icon={"eva:edit-fill"} />
+                                        }
+                                      >
+                                        Details
                                       </Button>
                                     </Link>
                                   </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-                              {orderStatus ==="Paid" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
+                                </TableCell>
+                              ) : (
+                                <></>
+                              )}
+                              {orderStatus === "Paid" ? (
+                                <TableCell
+                                  align="left"
+                                  style={{ display: "flex" }}
+                                >
+                                  <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    padding={2}
+                                    spacing={2}
+                                  >
+                                    <Link to={`/order-details-done/${id}`}>
+                                      <Button
+                                        variant="contained"
+                                        color="success"
+                                        startIcon={
+                                          <Iconify
+                                            icon={"material-symbols:done"}
+                                          />
+                                        }
+                                      >
+                                        Done
+                                      </Button>
+                                    </Link>
                                     <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
+                                      <Button
+                                        variant="contained"
+                                        startIcon={
+                                          <Iconify icon={"eva:edit-fill"} />
+                                        }
+                                      >
+                                        Details
                                       </Button>
                                     </Link>
                                   </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-                              {orderStatus ==="Done" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
+                                </TableCell>
+                              ) : (
+                                <></>
+                              )}
+                              {orderStatus === "Ebook_delivered" ? (
+                                <TableCell
+                                  align="left"
+                                  style={{ display: "flex" }}
+                                >
+                                  <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    padding={2}
+                                    spacing={2}
+                                  >
+                                    <Link to={`/order-details-done/${id}`}>
+                                      <Button
+                                        variant="contained"
+                                        color="success"
+                                        startIcon={
+                                          <Iconify
+                                            icon={"material-symbols:done"}
+                                          />
+                                        }
+                                      >
+                                        Done
+                                      </Button>
+                                    </Link>
                                     <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
+                                      <Button
+                                        variant="contained"
+                                        startIcon={
+                                          <Iconify icon={"eva:edit-fill"} />
+                                        }
+                                      >
+                                        Details
                                       </Button>
                                     </Link>
                                   </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-                              {orderStatus ==="Cancel" ?
-                                <TableCell align="left" style={{display: "flex", }}>
-                                  <Stack direction="row" alignItems="center" padding={2} spacing={2}>
-                                    {/* <IconButton size="large" color="inherit">
-                                      <Iconify icon={"eva:more-vertical-fill"} />
-                                    </IconButton> */}
+                                </TableCell>
+                              ) : (
+                                <></>
+                              )}
+                              {orderStatus === "Done" ? (
+                                <TableCell
+                                  align="left"
+                                  style={{ display: "flex" }}
+                                >
+                                  <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    padding={2}
+                                    spacing={2}
+                                  >
                                     <Link to={`/order-details/${id}`}>
-                                      <Button variant="contained" startIcon={<Iconify icon={"eva:edit-fill"} />}>
-                                          Details
+                                      <Button
+                                        variant="contained"
+                                        startIcon={
+                                          <Iconify icon={"eva:edit-fill"} />
+                                        }
+                                      >
+                                        Details
                                       </Button>
                                     </Link>
                                   </Stack>
-                                </TableCell>  
-                              : <></>
-                              }
-
+                                </TableCell>
+                              ) : (
+                                <></>
+                              )}
+                              {orderStatus === "Cancel" ? (
+                                <TableCell
+                                  align="left"
+                                  style={{ display: "flex" }}
+                                >
+                                  <Stack
+                                    direction="row"
+                                    alignItems="center"
+                                    padding={2}
+                                    spacing={2}
+                                  >
+                                    <Link to={`/order-details/${id}`}>
+                                      <Button
+                                        variant="contained"
+                                        startIcon={
+                                          <Iconify icon={"eva:edit-fill"} />
+                                        }
+                                      >
+                                        Details
+                                      </Button>
+                                    </Link>
+                                  </Stack>
+                                </TableCell>
+                              ) : (
+                                <></>
+                              )}
                             </TableRow>
                           );
                         })}
