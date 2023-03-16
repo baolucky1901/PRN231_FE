@@ -58,7 +58,6 @@ const ProductDetails = () => {
 
     fetchData();
   }, []);
-
   // console.log("Ebook Data: ", ebookData);
 
   // handling Add-to-cart
@@ -72,6 +71,7 @@ const ProductDetails = () => {
         quantity: 1,
         price: data.price,
         bookId: data.id,
+        bookAmount: data.amount,
       });
     }
   };

@@ -17,10 +17,10 @@ const CartItem = (props) => {
     cateItem,
     price,
     name,
+    bookAmount,
   } = props;
-  // console.log("id", id);
+  console.log("baInCartItem", bookAmount);
   const { removeItem } = useContext(cartContext);
-
   const handleRemove = () => {
     if (check(bookId)) {
       removeItem({ bookId: bookId, isBookId: true });
@@ -70,6 +70,7 @@ const CartItem = (props) => {
             cart={cateItem}
             comboBookId={comboBookId}
             ebookId={ebookId}
+            bookAmount={bookAmount}
           />
         </div>
       </div>
